@@ -27,7 +27,7 @@ CFLAGS = -Wall -Wextra -Werror -I includes/ -I libft/includes/ #-I./mlx
 
 # Folders & files
 HEADER = cub3d.h
-FILES = parse main#add more files here
+FILES = parse structures_management main#add more files here
 LIBFT = -L libft -lft
 
 #timing

@@ -6,7 +6,7 @@
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:31:10 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/08 17:49:19 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/10 18:21:58 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,17 @@
 # include <unistd.h>
 # include "libft.h"
 
-typedef struct s_data {
-	char	*map;
-	char    **map_2d;
-	int		map_x;
-	int		map_y;
+#define MAP_MAX_SIZE 1024
 
+typedef struct s_data {
+	char	**map;
+	int		map_width;
+	int		map_height;
 }	t_data;
 
-// int	is_map_valid(t_data **data);
+int manage_fd(char *filename, t_data *data);
+int	is_map_valid(t_data *data);
+int free_mem(t_data *data);
+void data_initiziated(t_data *data);
 
 #endif
