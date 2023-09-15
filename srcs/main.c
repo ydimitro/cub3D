@@ -6,7 +6,7 @@
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:45:37 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/11 12:02:40 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:43:44 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int argc, char **argv)
 			free_mem(&data);
 			return (1);
 		}
-		if (!is_map_valid(&data))
+		if (!is_map_valid(&data))//&& !textures_files
 		{
 			ft_putstr("Map is invalid.\n");
 			free_mem(&data);
