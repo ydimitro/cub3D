@@ -10,26 +10,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../includes/cub3d.h"
 
-//check if textures exists and have the right extension
+/*check if textures exists and have the right extension
 //check if textures mentioned on map
 //spaces within the textures
-//check for floor and sceiling colors
+//check for floor and sceiling colors*/
 
 
-// int textures_files(t_data *data)
-// {
-// 	int fd;
+int textures_files(t_data *data)
+{
+ 	int fd;
 	
-// 	fd = open(, O_RDONLY);
-// 	if (fd == -1)
-// 	{
-// 		perror("open");
-// 		return (1);
-// 	}
-// 	close(fd);
-// }
+ 	fd = open(texture_path, O_RDONLY);
+ 	if (fd == -1)
+ 	{
+ 		perror("open");
+ 		return (1); //texture does not exist
+ 	}
+ 	close(fd);
+	return (0); //texture exists
+}
 
 int textures_info(t_data *data)
 {
@@ -41,7 +42,7 @@ int textures_info(t_data *data)
 			return (1);
 		i++;
 	}
-    return (0);
+	return (0);
 	
 }
 

@@ -17,10 +17,16 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# include "libft.h"
-// # include "mlx/mlx.h"
+# include "../libft/includes/libft.h"
+# include "../minilibx-linux/mlx.h"
 
 #define MAP_MAX_SIZE 1024
+#define SUCCESS 0
+#define ERR_MULTIPLE_START 1
+#define ERR_NO_START 2
+#define FOV (60 * (M_PI / 180)) // Field of view 60 degrees converted to radians
+#define SCREEN_WIDTH 800
+#define DIST_TO_PROJ_PLANE (SCREEN_WIDTH / 2) / tan(FOV / 2) // Distance to the Projection Plane
 
 # define KEY_ESC			53
 # define KEY_Q				12
@@ -40,15 +46,107 @@
 # define KEY_RIGHT			124
 
 
+typedef struct s_ray {
+	double ray_dir_x;
+	double ray_dir_y;
+	int map_x;
+	int map_y;
+	double side_dist_x;
+	double side_dist_y;
+	double delta_dist_x;
+	double delta_dist_y;
+	double perp_wall_dist;
+	int step_x;
+	int step_y;
+	int hit;
+	int side;
+}	t_ray;
+
+typedef struct s_texture {
+	// For now, let's just consider a simple wall texture
+	void *img;
+	char	*addr;
+	int width;
+	int height;
+	int bpp;
+	int	 line_length;
+	int	 endian;
+	int sl;
+	int end;
+	int *data;
+}	t_texture;
+
+typedef struct s_player {
+	double x;
+	double y;
+	//double direction; // measured in radians, 0 is east, PI/2 is north, etc.
+	double dir_x;
+	double dir_y;
+	double speed;
+	double turn_speed;
+}	t_player;
+
 typedef struct s_data {
 	char	**map;
 	int		map_width;
 	int		map_height;
+
+	void	*mlx_ptr;	   // MLX instance
+	void	*win_ptr;	   // Window pointer
+	void	*img_ptr;	   // Image
+	char	*img_data;	  // Image data
+	int	 bits_per_pixel;
+	int	 size_line;
+	int	 endian;
+
+	t_player	player;
+	float		player_x;
+	float		player_y;
+	float		player_dir; //in degrees
+
+	t_ray ray;
+	int screen_width;
+	int screen_height;
+	t_texture wall_texture;
+
+	t_texture north_tex;
+	t_texture south_tex;
+	t_texture east_tex;
+	t_texture west_tex;
 }	t_data;
 
-int manage_fd(char *filename, t_data *data);
-int	is_map_valid(t_data *data);
-int free_mem(t_data *data);
-void data_initiziated(t_data *data);
+/*
+typedef struct s_item {
+	float x, y;
+	int type;
+	int picked_up;  // 0 for not picked up, 1 for picked up
+} t_item;
+
+typedef struct s_enemy {
+	float x, y;
+	int type;
+	int health;
+	int state; // 0 for idle, 1 for moving, 2 for attacking, etc.
+} t_enemy;
+*/
+
+void cleanup_texture(t_data *data);
+int free_mem(t_data *data);// Frees any dynamically allocated memory associated with the t_data structure
+void set_player_start(t_data *data, char orientation, int x, int y, int *player_start_found);
+void draw_player(t_data *data);
+void draw_textured_walls(t_data *data, int x);
+void handle_error(int code);
+void data_init(t_data *data);
+void load_texture(t_data *data, t_texture *tex, char *path);
+int key_press(int keycode, t_data *data);
+int manage_fd(char *filename, t_data *data); //opening and reading the game map from a file
+void move_player(t_data *data, float dx, float dy);
+int textures_files(t_data *data);
+int textures_info(t_data *data);
+int	is_map_valid(t_data *data); // Validates if the given map is correct or valid to be played
+void draw_wall_slice(t_data *data, int x);
+void cast_through_map(t_data *data);
+void cast_single_ray(t_data *data, int x);
+//void draw_rectangle(t_data *data, int x, int y, int width, int height, int color);
 
 #endif

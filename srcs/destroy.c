@@ -1,16 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structures_management.c                            :+:      :+:    :+:   */
+/*   destroy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ydimitro <ydimitro@students.42wolfsburg.de +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/10 18:21:34 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/10 18:21:44 by tgomes-l         ###   ########.fr       */
+/*   Created: 2023/09/10 08:33:07 by ydimitro          #+#    #+#             */
+/*   Updated: 2023/09/17 08:33:07 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+void cleanup_texture(t_data *data)
+{
+	mlx_destroy_image(data->mlx_ptr, data->north_tex.img);
+	mlx_destroy_image(data->mlx_ptr, data->south_tex.img);
+	mlx_destroy_image(data->mlx_ptr, data->west_tex.img);
+	mlx_destroy_image(data->mlx_ptr, data->east_tex.img);
+}
 
 int free_mem(t_data *data)
 {
@@ -21,11 +27,4 @@ int free_mem(t_data *data)
 		i++;
 	}
 	return(0);
-}
-
-void data_initiziated(t_data *data)
-{
-	data->map = (char **)malloc(sizeof(char *) * MAP_MAX_SIZE);
-	data->map_width = 0;
-	data->map_height = 0;
 }
