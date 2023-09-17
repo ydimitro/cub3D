@@ -6,7 +6,7 @@
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:08:11 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/08 18:46:30 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/17 19:48:07 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ size_t			ft_strlen(const char *str);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
+char			*ft_strstr(const char *haystack, const char *needle);
 char			*ft_strnstr(const char *bg, const char *sm, size_t len);
 char			*ft_strrchr(char *s, int c);
 char			*ft_strcpy(char *dest, char *src);

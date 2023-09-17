@@ -6,7 +6,7 @@
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:31:10 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/11 15:39:02 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/17 19:34:49 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,22 @@ typedef struct s_data {
 	char	**map;
 	int		map_width;
 	int		map_height;
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
+	int 	ceiling_r;
+	int 	ceiling_g;
+	int 	ceiling_b;
+	int		floor_r;
+	int		floor_g;
+	int		floor_b;
 }	t_data;
 
 int manage_fd(char *filename, t_data *data);
 int	is_map_valid(t_data *data);
 int free_mem(t_data *data);
 void data_initiziated(t_data *data);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:45:37 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/11 15:43:44 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/17 19:53:41 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,30 @@ int manage_fd(char *filename, t_data *data)
 	int row = 0;
 	while ((line = get_next_line(fd)) != NULL)
 	{
-		printf("%s", line);
+		// printf("%s", line);
 		if (row < MAP_MAX_SIZE)
 		{
-			data->map[row] = ft_strdup(line);
+			printf("%d", row);
+			// //skipspaces
+			// ft_skipspaces(line)
+			// if(ft_strstr(line, "NO") == 0)
+			// 	//check for NO texture
+			// else if(ft_strstr(line, "SO") == 0)
+			// 	//check for texture
+			// else if(ft_strstr(line, "WE") == 0)
+			// 	//check for texture
+			// else if(ft_strstr(line, "EA") == 0)
+			// 	//check for texture
+			// printf("%s", line);
+			// //check colors
+			// if(ft_strstr(data->map[row], "1111"))//where map starts
+				data->map[row] = ft_strdup(line);
 			row++;
 		}
 		free(line);
 	}
 	close(fd);
 	data->map_height = row;
-
-	// Calculate map_width (assuming all rows have the same length)
-	if (data->map_height > 0)
-		data->map_width = strlen(data->map[0]);
 	return (0);
 }
 
@@ -65,12 +75,6 @@ int	main(int argc, char **argv)
 		if (manage_fd(argv[1], &data) == -1)
 		{
 			ft_putstr("An error occurred while reading the file.\n");
-			free_mem(&data);
-			return (1);
-		}
-		if (!is_map_valid(&data))//&& !textures_files
-		{
-			ft_putstr("Map is invalid.\n");
 			free_mem(&data);
 			return (1);
 		}

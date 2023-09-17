@@ -1,49 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   map_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:30:49 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/11 17:01:58 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/17 19:41:14 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-//check if textures exists and have the right extension
-//check if textures mentioned on map
-//spaces within the textures
-//check for floor and sceiling colors
-
-
-// int textures_files(t_data *data)
-// {
-// 	int fd;
-	
-// 	fd = open(, O_RDONLY);
-// 	if (fd == -1)
-// 	{
-// 		perror("open");
-// 		return (1);
-// 	}
-// 	close(fd);
-// }
-
-int textures_info(t_data *data)
-{
-	int i = 0;
-
-	while(i < data->map_height)
-	{
-		if(strstr(data->map[i], NO_textures != NULL))
-			return (1);
-		i++;
-	}
-    return (0);
-	
+static int ft_isspace(int c) {
+    if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r')
+		return(1);
+	return(0);
 }
+
+static int	is_valid_char(char c)
+{
+	if (ft_isspace(c) || c == '0' || c == '1' || c == 'N' || \
+		c == 'E' || c == 'W' || c == 'S')
+		return (1);
+	return (0);
+}
+
 
 int	is_map_valid(t_data *data)
 {
@@ -54,7 +35,13 @@ int	is_map_valid(t_data *data)
 		ft_putstr("The map is empty\n");
 		return (0);
 	}
-	if(!textures_info(&data))
-		return(0);
+	while (data->map[i][i] != 0)
+	{
+		if (!is_valid_char(data->map[i][i]))
+			return (0);
+		i++;
+	}
+	// if (!is_map_closed(data))
+	// 	return (0);
 	return(1);
 }
