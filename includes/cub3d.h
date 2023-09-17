@@ -59,7 +59,7 @@ typedef struct s_data {
 int manage_fd(char *filename, t_data *data);
 int	is_map_valid(t_data *data);
 int free_mem(t_data *data);
-void data_initiziated(t_data *data);
+void data_initiziated(t_data *data, int map_size);
 
 
 #endif

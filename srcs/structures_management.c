@@ -20,17 +20,29 @@ int free_mem(t_data *data)
 		free(data->map[i]);
 		i++;
 	}
+  free(data->map);
+  free(data->north);
+  free(data->south);
+  free(data->west);
+  free(data->east);
 	return(0);
 }
 
-void data_initiziated(t_data *data)
+void data_initiziated(t_data *data, int map_size)
 {
-	data->map = 0;
-	data->map = (char **)malloc(sizeof(char *) * MAP_MAX_SIZE);
-	if(!data->map)
-		return ;
+    int i;
+    data->map = (char **)malloc(sizeof(char *) * map_size);
+    if (!data->map)
+        return;
+    // Initialize all map pointers to NULL
+    i = 0;
+    while (i < map_size) 
+    {
+        data->map[i] = 0;
+        i++;
+    }
     // data->map_width = 0;
-    data->map_height = 0;
+    // data->map_height = 0;
     // data->north = NULL;
     // data->south = NULL;
     // data->west = NULL;

@@ -67,7 +67,7 @@ size_t			ft_strlen(const char *str);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
-char			*ft_strstr(const char *haystack, const char *needle);
+char			*ft_strstr(char *str, char *to_find);
 char			*ft_strnstr(const char *bg, const char *sm, size_t len);
 char			*ft_strrchr(char *s, int c);
 char			*ft_strcpy(char *dest, char *src);

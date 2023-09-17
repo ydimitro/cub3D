@@ -22,7 +22,7 @@ NAME = cub3d
 
 # Compiler and flags
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -I includes/ -I libft/includes/ #-I./mlx
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g -I includes/ -I libft/includes/ #-I./mlx
 # MLX_FLAGS :=  -L./mlx -lmlx -framework OpenGL -framework AppKit
 
 # Folders & files

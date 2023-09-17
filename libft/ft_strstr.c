@@ -10,29 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strstr(const char *haystack, const char *needle)
+char	*ft_strstr(char *str, char *to_find)
 {
-	const char	*hay_ptr;
-	const char	*needle_ptr;
-	if (*needle == '\0')
+	int i;
+	int j;
+
+	i = 0;
+	if (to_find[0] == '\0')
+		return (str);
+	while (str[i] != '\0')
 	{
-	    return ((char *)haystack);
-	}
-	while (*haystack)
-	{
-		hay_ptr = haystack;
-		needle_ptr = needle;
-		while (*hay_ptr == *needle_ptr && *needle_ptr != '\0')
+		j = 0;
+		while (str[i + j] != '\0' && str[i + j] == to_find[j])
 		{
-			hay_ptr++;
-			needle_ptr++;
+			if (to_find[j + 1] == '\0')
+				return (&str[i]);
+			++j;
 		}
-		if (*needle_ptr == '\0')
-		{
-			return ((char *)haystack);
-		}
-		haystack++;
+		++i;
 	}
 	return (0);
 }
-
