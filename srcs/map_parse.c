@@ -6,12 +6,12 @@
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:30:49 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/17 19:41:14 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/19 03:06:32 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-static int ft_isspace(int c) {
+int ft_isspace(int c) {
     if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r')
 		return(1);
 	return(0);

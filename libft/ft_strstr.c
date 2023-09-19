@@ -6,14 +6,16 @@
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 19:45:05 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/17 19:49:16 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/18 23:38:49 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "includes/libft.h"
+
 char	*ft_strstr(char *str, char *to_find)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	if (to_find[0] == '\0')

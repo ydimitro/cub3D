@@ -6,7 +6,7 @@
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:21:34 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/17 19:51:09 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/19 04:07:15 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,27 @@
 int free_mem(t_data *data)
 {
 	int i = 0;
-	while(i < data->map_height)
+	while(i < data->all_file)
 	{
 		free(data->map[i]);
 		i++;
 	}
-  free(data->map);
-  free(data->north);
-  free(data->south);
-  free(data->west);
-  free(data->east);
+    free(data->north);
+    free(data->south);
+    free(data->east);
+    free(data->west);
 	return(0);
 }
 
-void data_initiziated(t_data *data, int map_size)
+void data_initiziated(t_data *data, int file_size)
 {
     int i;
-    data->map = (char **)malloc(sizeof(char *) * map_size);
+    data->map = (char **)malloc(sizeof(char *) * file_size);
     if (!data->map)
         return;
     // Initialize all map pointers to NULL
     i = 0;
-    while (i < map_size) 
+    while (i < file_size) 
     {
         data->map[i] = 0;
         i++;

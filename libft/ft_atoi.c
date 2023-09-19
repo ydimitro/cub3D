@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgomes-l <tgomes-l@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:20:13 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/05/17 22:59:17 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/18 23:36:09 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_atoi(const char *str)
 			|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r'))
 		i++;
 	if (str[i] == '+' || str[i] == '-')
-	{	
+	{
 		if (str[i] == '-')
 		{
 			sign = sign * (-1);

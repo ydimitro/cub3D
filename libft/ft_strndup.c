@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   texture_parse.c                                    :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/17 18:31:55 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/17 19:14:05 by tgomes-l         ###   ########.fr       */
+/*   Created: 2023/09/18 23:30:52 by tgomes-l          #+#    #+#             */
+/*   Updated: 2023/09/18 23:33:46 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "includes/libft.h"
 
-// int save_textures(char *line, t_data data)
-// {
+char	*ft_strndup(const char *s, size_t n)
+{
+	char			*res;
+	unsigned int	i;
 
-// 	return(0);
-// }
-
-// int save_colors(char *line, t_data data)
-// {
-// 	//skipspaces
-// 	if(ft_strcmp(line, "C") == 0)
-// 		//store NO textures with path
-// 	else if(ft_strcmp(line, "F") == 0)
-// 		//
-// 	return(0);
-// }
+	i = 0;
+	res = malloc(sizeof(char) * (n + 1));
+	if (res == NULL)
+		return (NULL);
+	while (i < n)
+	{
+		res[i] = s[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
+}

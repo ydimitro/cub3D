@@ -27,7 +27,7 @@ CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g -I includes/ -I libft/inclu
 
 # Folders & files
 HEADER = cub3d.h
-FILES = map_parse  structures_management main#add more files here textures_parse
+FILES = map_parse textures_parse structures_management main#add more files here 
 LIBFT = -L libft -lft
 
 #timing
