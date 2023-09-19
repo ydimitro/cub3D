@@ -6,7 +6,7 @@
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:31:10 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/19 03:12:36 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/19 04:35:06 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ typedef struct s_player {
 }	t_player;
 
 typedef struct s_data {
-	char	**file;
 	char	**map;
 	int		all_file;
 	int		map_width;
@@ -141,5 +140,6 @@ void	data_initiziated(t_data *data, int map_size);
 int get_elements(char *line, t_data *data);
 int ft_isspace(int c) ;
 int	parse_texture(char *line, t_data *data);
+int get_map(char *line, t_data *data);
 
 #endif

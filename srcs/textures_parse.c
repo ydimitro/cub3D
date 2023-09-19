@@ -6,7 +6,7 @@
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 23:45:38 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/19 04:00:44 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/19 04:37:12 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,10 @@ int get_elements(char *line, t_data *data)
 		parse_texture(line, data);
 	else if(strstr(line, "EA"))
 		parse_texture(line, data);
-	//else if(strstr(line, "F") || strstr(line, "C"))
-	// 	parse_color(line, data);
+	// else if(strstr(line, "F") || strstr(line, "C"))
+	//  	parse_color(line, data);
 	
-	return(0);
-}
-
-int get_map(char *line, t_data *data)
-{
-	int map_start = 0;
-	
-	if(ft_isprint(line))
-		map_start = line;
-	while(map_start < data->all_file)
-	{
-
-	}
-	
+	return (0);
 }
 
 int	parse_texture(char *line, t_data *data)
@@ -58,5 +45,18 @@ int	parse_texture(char *line, t_data *data)
     } else if (strstr(line, "EA")) {
         data->east = ft_strdup(texture_path);
 	}
-	return(0);
+	return (0);
 }
+
+// int	parse_color(char *line, t_data *data)
+// {
+// 	int i = 0;
+// 	char *color_digits;
+	
+// 	while(ft_isspace(line[i]))
+// 		i++;
+// 	if (!line[i])
+//         return 0;
+// ////missssiing code
+// 	return (0);
+// }

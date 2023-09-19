@@ -6,7 +6,7 @@
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:21:34 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/19 04:07:15 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/19 04:40:02 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void data_initiziated(t_data *data, int file_size)
         data->map[i] = 0;
         i++;
     }
-    // data->map_width = 0;
-    // data->map_height = 0;
+    data->map_width = 0;
+    data->map_height = 0;
     // data->north = NULL;
     // data->south = NULL;
     // data->west = NULL;

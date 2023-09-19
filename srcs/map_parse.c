@@ -6,7 +6,7 @@
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:30:49 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/19 03:06:32 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/19 04:41:49 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int	is_valid_char(char c)
 		return (1);
 	return (0);
 }
-
 
 int	is_map_valid(t_data *data)
 {
@@ -44,4 +43,37 @@ int	is_map_valid(t_data *data)
 	// if (!is_map_closed(data))
 	// 	return (0);
 	return(1);
+}
+
+int get_map(char *line, t_data *data)
+{
+	int map_started = 0; // keep track of whether the map has started
+	
+	// Skip leading whitespace
+	int i = 0;
+	while (line[i] && ft_isspace(line[i]))
+	    i++;
+	
+	// Check if the line is empty
+	if (!line[i])
+	    return (0);
+	
+	// If the map has not started yet, set map_started flag
+	if (!map_started)
+	    map_started = 1;
+	
+	// Allocate memory for the map row and copy the line into it
+	data->map[data->map_height] = ft_strdup(line);
+	printf("Stored map line: %s\n", data->map[data->map_height]);
+	
+	// Update the map height
+	data->map_height++;
+	
+	// Update the map width if needed
+	int line_length = ft_strlen(line);
+	if (line_length > data->map_width)
+	    data->map_width = line_length;
+	
+	return (0);
+	
 }
