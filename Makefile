@@ -22,12 +22,11 @@ NAME = cub3d
 
 # Compiler and flags
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -I includes/ -I libft/includes/ #-I./mlx
-# MLX_FLAGS :=  -L./mlx -lmlx -framework OpenGL -framework AppKit
-
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g -I includes/ -I libft/includes/ -I./mlx
+MLX_FLAGS :=  -framework OpenGL -framework AppKit -lm -lmlx -I -L/minilibx-linux/libmlx_linux.a
 # Folders & files
 HEADER = cub3d.h
-FILES = parse structures_management main#add more files here
+FILES = textures_parse destroy direction drawing error_handling init key_press map_parse map_parse2 movement raycasting rendering main#add more files here 
 LIBFT = -L libft -lft
 
 #timing
@@ -39,6 +38,8 @@ SRC = $(addsuffix .c, $(addprefix srcs/, $(FILES)))
 # Object files
 OBJ = $(SRC:c=o)
 
+MLX = ./minilibx-linux/
+
 all: $(NAME)
                                                                                                                                                             
 $(NAME): $(OBJ)
@@ -46,7 +47,8 @@ $(NAME): $(OBJ)
 	@make -C libft/
 	@echo "$(EMOJI_CLOCK)$(ORANGE)Compiling cub3d...$(RESET)"
 	@$(TIMER)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(GNL)
+	@$(MAKE) -C $(MLX)
+	@$(CC) $(CFLAGS) -framework OpenGL -framework AppKit -lm -lmlx -I -L/libs/minilibx-linux/libmlx_linux.a -o $(NAME) $(OBJ) $(LIBFT) $(GNL) $(MLX_FLAGS) 
 	@echo "$(EMOJI_HAPPY)$(GREEN)DONE ✓✓$(RESET)"
 	@echo "$(CYAN)$$HEADER$(RESET)"
 	@echo "\n"

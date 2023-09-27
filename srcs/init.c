@@ -14,7 +14,16 @@
 
 void data_init(t_data *data)
 {
+	int i; 
 	data->map = (char **)malloc(sizeof(char *) * MAP_MAX_SIZE);
+	if (!data->map)
+        return;
+	i = 0;
+    while (i < MAP_MAX_SIZE) 
+    {
+        data->map[i] = 0;
+        i++;
+    }
 	data->map_width = 0;
 	data->map_height = 0;
 
@@ -34,10 +43,11 @@ void load_texture(t_data *data, t_texture *tex, char *path)
 		exit(1); // Handle this more gracefully in your real code
 	}
 	tex->addr = mlx_get_data_addr(tex->img, &tex->bpp, &tex->line_length, &tex->endian);
-}
 
-load_texture(&data, &data.north_tex, "path_to_north_texture.xpm");
-load_texture(&data, &data.south_tex, "path_to_south_texture.xpm");
-load_texture(&data, &data.west_tex, "path_to_west_texture.xpm");
-load_texture(&data, &data.east_tex, "path_to_east_texture.xpm");
+	load_texture(data, &data->north_tex, "path_to_north_texture.xpm");
+	load_texture(data, &data->south_tex, "path_to_south_texture.xpm");
+	load_texture(data, &data->west_tex, "path_to_west_texture.xpm");
+	load_texture(data, &data->east_tex, "path_to_east_texture.xpm");
+
+}
 

@@ -58,6 +58,8 @@ void draw_textured_walls(t_data *data, int x)
 {
 	// Choose the texture based on wall direction
 	t_texture *tex;
+	//t_data    player;
+
 	if (data->ray.side == 0)
 		tex = (data->ray.step_x == 1) ? &data->south_tex : &data->north_tex;
 	else
@@ -77,9 +79,10 @@ void draw_textured_walls(t_data *data, int x)
 	if (data->ray.side == 1 && data->ray.dir_y < 0)
 		tex_x = tex->width - tex_x - 1;
 
-	double step = 1.0 * tex->height / line_height;
-	double tex_pos = (draw_start - data->screen_height / 2 + line_height / 2) * step;
-
+	double draw_start = data->screen_height;
+	double draw_end = data->screen_width;
+	double step = 1.0 * tex->height / data->ray.dir_x;
+	double tex_pos = (draw_start - data->screen_height / 2 + data->ray.dir_x / 2) * step;
 	while (draw_start <= draw_end)
 	{
 		int tex_y = (int)tex_pos & (tex->height - 1);

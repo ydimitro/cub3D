@@ -6,7 +6,7 @@
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:08:11 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/08 18:46:30 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/18 23:33:18 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,12 @@ char			*ft_strjoin(char const *s1, char const *s2);
 size_t			ft_strlcat(char *dst, char *src, size_t dstsize);
 unsigned int	ft_strlcpy(char *dest, char *src, unsigned int size);
 char			*ft_strncpy(char *dst, char *src, int n);
+char			*ft_strndup(const char *s, size_t n);
 size_t			ft_strlen(const char *str);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
+char			*ft_strstr(char *str, char *to_find);
 char			*ft_strnstr(const char *bg, const char *sm, size_t len);
 char			*ft_strrchr(char *s, int c);
 char			*ft_strcpy(char *dest, char *src);

@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/cub3d.h"
+
 void cleanup_texture(t_data *data)
 {
 	mlx_destroy_image(data->mlx_ptr, data->north_tex.img);
@@ -21,10 +23,14 @@ void cleanup_texture(t_data *data)
 int free_mem(t_data *data)
 {
 	int i = 0;
-	while(i < data->map_height)
+	while(i < data->all_file)
 	{
 		free(data->map[i]);
 		i++;
 	}
+    free(data->north);
+    free(data->south);
+    free(data->east);
+    free(data->west);
 	return(0);
 }

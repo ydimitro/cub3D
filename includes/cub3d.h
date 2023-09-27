@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tgomes-l <tgomes-l@student.42wolfsburg>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:31:10 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/11 15:39:02 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/27 03:59:00 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <stdbool.h>
+# include <math.h>
 # include "../libft/includes/libft.h"
 # include "../minilibx-linux/mlx.h"
 
@@ -27,6 +29,10 @@
 #define FOV (60 * (M_PI / 180)) // Field of view 60 degrees converted to radians
 #define SCREEN_WIDTH 800
 #define DIST_TO_PROJ_PLANE (SCREEN_WIDTH / 2) / tan(FOV / 2) // Distance to the Projection Plane
+#define MOVE_SPEED 60
+#define ROT_SPEED 60
+
+
 
 # define KEY_ESC			53
 # define KEY_Q				12
@@ -46,9 +52,15 @@
 # define KEY_RIGHT			124
 
 
+
+
+
+
+
+
 typedef struct s_ray {
-	double ray_dir_x;
-	double ray_dir_y;
+	double dir_x;
+	double dir_y;
 	int map_x;
 	int map_y;
 	double side_dist_x;
@@ -79,7 +91,7 @@ typedef struct s_texture {
 typedef struct s_player {
 	double x;
 	double y;
-	//double direction; // measured in radians, 0 is east, PI/2 is north, etc.
+	double direction; // measured in radians, 0 is east, PI/2 is north, etc.
 	double dir_x;
 	double dir_y;
 	double speed;
@@ -88,8 +100,16 @@ typedef struct s_player {
 
 typedef struct s_data {
 	char	**map;
+	int		all_file;
 	int		map_width;
 	int		map_height;
+	char	*north;//for path on file
+	char	*south;//for path on file
+	char	*west;//for path on file
+	char	*east;//for path on file
+	int ceiling_color[3];
+    int floor_color[3];
+	double tile_size;
 
 	void	*mlx_ptr;	   // MLX instance
 	void	*win_ptr;	   // Window pointer
@@ -104,7 +124,7 @@ typedef struct s_data {
 	float		player_y;
 	float		player_dir; //in degrees
 
-	t_ray ray;
+	t_ray 		ray;
 	int screen_width;
 	int screen_height;
 	t_texture wall_texture;
@@ -115,29 +135,19 @@ typedef struct s_data {
 	t_texture west_tex;
 }	t_data;
 
-/*
-typedef struct s_item {
-	float x, y;
-	int type;
-	int picked_up;  // 0 for not picked up, 1 for picked up
-} t_item;
 
-typedef struct s_enemy {
-	float x, y;
-	int type;
-	int health;
-	int state; // 0 for idle, 1 for moving, 2 for attacking, etc.
-} t_enemy;
-*/
+int manage_fd(char *filename, t_data *data);
+int	is_map_valid(t_data *data);
+int free_mem(t_data *data);
+void data_initiziated(t_data *data);
 
 void cleanup_texture(t_data *data);
 int free_mem(t_data *data);// Frees any dynamically allocated memory associated with the t_data structure
-void set_player_start(t_data *data, char orientation, int x, int y, int *player_start_found);
+int set_player_start(t_data *data, char orientation, int x, int y, int *player_start_found);
 void draw_player(t_data *data);
 void draw_textured_walls(t_data *data, int x);
 void handle_error(int code);
 void data_init(t_data *data);
-void load_texture(t_data *data, t_texture *tex, char *path);
 int key_press(int keycode, t_data *data);
 int manage_fd(char *filename, t_data *data); //opening and reading the game map from a file
 void move_player(t_data *data, float dx, float dy);
@@ -147,6 +157,12 @@ int	is_map_valid(t_data *data); // Validates if the given map is correct or vali
 void draw_wall_slice(t_data *data, int x);
 void cast_through_map(t_data *data);
 void cast_single_ray(t_data *data, int x);
-//void draw_rectangle(t_data *data, int x, int y, int width, int height, int color);
+int ft_isspace(int c);
+int	parse_texture(char *line, t_data *data);
+int	parse_color(char *line, t_data *data);
+void load_texture(t_data *data, t_texture *tex, char *path);
+void render(t_data *data);
+int		get_elements(char *line, t_data *data);
 
+//void draw_rectangle(t_data *data, int x, int y, int width, int height, int color);
 #endif

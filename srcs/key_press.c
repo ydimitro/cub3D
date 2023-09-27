@@ -57,7 +57,7 @@ int key_press(int keycode, t_data *data)
 	// Apply movement.
 	move_player(data, dx, dy);
 	//raycasting
-	render(&data);
+	render(data);
 	// Clear the screen to black before drawing the updated position
 	mlx_clear_window(data->mlx_ptr, data->win_ptr);
 	draw_player(data);

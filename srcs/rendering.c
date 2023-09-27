@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/cub3d.h"
 /*
 1. Clear the previous frame.
 2. For each vertical slice of the screen, cast a ray.
@@ -24,10 +25,10 @@ void render(t_data *data)
 
 	// 2. For each vertical slice of the screen
 	int x = 0;
-	while (x < data->win_width) 
+	while (x < data->map_width) 
 	{
 		// Calculate initial ray direction based on player's direction and current slice
-		float ray_angle = data->player_dir + (x - data->win_width / 2) * FOV / data->win_width;
+		float ray_angle = data->player_dir + (x - data->map_width / 2) * FOV / data->map_width;
 		
 		// Handle wrapping of angles (if angles are in degrees)
 		if (ray_angle < 0) ray_angle += 360;
@@ -38,10 +39,10 @@ void render(t_data *data)
 
 		// Determine height of the wall slice
 		float slice_height = (data->tile_size / data->ray.perp_wall_dist) * DIST_TO_PROJ_PLANE;
-		float top_pixel = (data->win_height / 2) - (slice_height / 2);
+		float top_pixel = (data->map_height / 2) - (slice_height / 2);
 		top_pixel = (top_pixel < 0) ? 0 : top_pixel;
 		float bottom_pixel = top_pixel + slice_height;
-		bottom_pixel = (bottom_pixel > data->win_height) ? data->win_height : bottom_pixel;
+		bottom_pixel = (bottom_pixel > data->map_height) ? data->map_height : bottom_pixel;
 
 		// 4. Draw the slice to the screen with the correct method
 		if (data->ray.hit)
@@ -51,5 +52,5 @@ void render(t_data *data)
 	}
 	
 	// Swap buffers or render the frame to the window, depending on MLX's functionality
-	display_frame(data);
+	//display_frame(data);
 }

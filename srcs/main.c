@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tgomes-l <tgomes-l@student.42wolfsburg>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/08 11:45:37 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/11 15:43:44 by tgomes-l         ###   ########.fr       */
+/*   Created: 2023/09/08 03:33:11 by tgomes-l          #+#    #+#             */
+/*   Updated: 2023/09/27 03:33:30 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+int file_divider(int row, t_data *data)
+{
+	int i = 0;
+	char *line;
+	while (i < row)
+	{
+		line = data->map[i];
+		get_elements(line, data);
+		//get_map(line, data);
+		i++;
+	}
+	return(0);
+}
 
 int manage_fd(char *filename, t_data *data)
 {
@@ -25,7 +39,7 @@ int manage_fd(char *filename, t_data *data)
 	}
 	char *line;
 	int row = 0;
-	while ((line = get_next_line(fd)) != NULL)
+	while ((line = get_next_line(fd)) != NULL) 
 	{
 		printf("%s", line);
 		if (row < MAP_MAX_SIZE)
@@ -37,7 +51,7 @@ int manage_fd(char *filename, t_data *data)
 			while (line[col])
 			{
 				if (strchr("NSEW", line[col])) {
-					int err = set_player_start(&data, line[col], col, row, &player_start_found);
+					int err = set_player_start(data, line[col], col, row, &player_start_found);
 					if (err != SUCCESS) {
 						handle_error(err);
 						free(line);
@@ -47,8 +61,10 @@ int manage_fd(char *filename, t_data *data)
 				col++;
 			}
 		}
+		data->all_file = row;
 		free(line);
 	}
+	file_divider(row, data);
 	close(fd);
 	data->map_height = row;
 
@@ -89,13 +105,14 @@ int	main(int argc, char **argv)
 			free_mem(&data);
 			return (1);
 		}
-		if (!is_map_valid(&data))//&& !textures_files
-		{
-			ft_putstr("Map is invalid.\n");
-			free_mem(&data);
-			return (1);
-		}
-		free_mem(&data);
+	printf("%s\n", data.north);//testing
+   	printf("%s\n", data.south);//testing
+    printf("%s\n", data.east);//testing
+    printf("%s\n", data.west);//testing
+	printf("%s\n", data.west);//testing
+	printf("Ceiling Color: R=%d, G=%d, B=%d\n", data.ceiling_color[0], data.ceiling_color[1], data.ceiling_color[2]);
+    printf("Floor Color: R=%d, G=%d, B=%d\n", data.floor_color[0], data.floor_color[1], data.floor_color[2]);
+	free_mem(&data);
 	}
 
 	// Initializing MLX and creating a window
@@ -105,7 +122,7 @@ int	main(int argc, char **argv)
 	// Draw a rectangle to test drawing capabilities
 	//draw_rectangle(&data, 200, 250, 400, 100, 0x00FF00);
 
-	mlx_hook(data->win_ptr, 2, 0, &key_press, &data);
+	mlx_hook(data.win_ptr, 2, 0, &key_press, &data);
 
 	// Enter the MLX loop to keep the window open
 	mlx_loop(data.mlx_ptr);

@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void set_player_start(t_data *data, char orientation, int x, int y, int *player_start_found)
+#include "../includes/cub3d.h"
+int set_player_start(t_data *data, char orientation, int x, int y, int *player_start_found)
 {
 	if (*player_start_found) {
 		return ERR_MULTIPLE_START;
@@ -21,13 +22,13 @@ void set_player_start(t_data *data, char orientation, int x, int y, int *player_
 	data->player.x = x; //  + 0.5 for Center of the tile
 	data->player.y = y; //  + 0.5 for Center of the tile
 
-	if (orientation == 'NO') {
+	if (ft_strcmp(&orientation, "NO") == 1) {
 		data->player_dir = 90.0;
-	} else if (orientation == 'EA') {
+	} else if (ft_strcmp(&orientation, "EA") == 1) {
 		data->player_dir = 0.0;
-	} else if (orientation == 'SO') {
+	} else if (ft_strcmp(&orientation, "SO") == 1) {
 		data->player_dir = 270.0;
-	} else if (orientation == 'WE') {
+	} else if (ft_strcmp(&orientation, "WE") == 1) {
 		data->player_dir = 180.0;
 	}
 /*
@@ -47,19 +48,4 @@ void set_player_start(t_data *data, char orientation, int x, int y, int *player_
 */
 	
 	return SUCCESS;
-}
-
-// During map parsing
-int row = 0;
-while ((line = get_next_line(fd)) != NULL)
-{
-	...
-	int col = 0;
-	while (line[col])
-	{
-		if (strchr("NOSOEAWE", line[col]))
-			set_player_start(&data, line[col], col, row);
-		col++;
-	}
-	row++;
 }
