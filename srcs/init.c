@@ -6,7 +6,7 @@
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 08:27:53 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/09/27 18:54:48 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/27 19:09:21 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ void data_init(t_data *data)
     }
 	data->map_width = 0;
 	data->map_height = 0;
-	data->map_count = 0;
+	data->game_map = 0;
+	data->game_map_size = 0;
+	data->game_map_capacity = 0;
 	data->player.x = 2.0;  // Starting position
 	data->player.y = 2.0;  // Starting position
 	data->player.direction = 3.14159 / 2;  // Facing north

@@ -6,7 +6,7 @@
 /*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:31:10 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/27 18:54:28 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/27 19:16:40 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ typedef struct s_player {
 
 typedef struct s_data {
 	char	**map;
-	int		map_count;
+	char **game_map;
+	int game_map_size; // Current size of the game map
+    size_t game_map_capacity;
+	int in_map_section;
 	int		all_file;
 	int		map_width;
 	int		map_height;
