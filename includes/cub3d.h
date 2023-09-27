@@ -23,17 +23,22 @@
 # include "../minilibx-linux/mlx.h"
 
 #define MAP_MAX_SIZE 1024
+
 #define SUCCESS 0
 #define ERR_MULTIPLE_START 1
 #define ERR_NO_START 2
-#define FOV (60 * (M_PI / 180)) // Field of view 60 degrees converted to radians
-#define SCREEN_WIDTH 800
-#define DIST_TO_PROJ_PLANE (SCREEN_WIDTH / 2) / tan(FOV / 2) // Distance to the Projection Plane
+#define ERR_INVALID_ARGC 3
+#define ERR_INVALID_EXT 4
+#define ERR_READ_FILE 5
+#define ERR_PLAYER_NR 6
+
+
+#define FOV (60 * (M_PI / 180))
+#define DIST_TO_PROJ_PLANE (SCREEN_WIDTH / 2) / tan(FOV / 2)
 #define MOVE_SPEED 60
 #define ROT_SPEED 60
 
-
-
+//KEYS
 # define KEY_ESC			53
 # define KEY_Q				12
 //Move keys
@@ -61,6 +66,7 @@
 typedef struct s_ray {
 	double dir_x;
 	double dir_y;
+	int side;
 	int map_x;
 	int map_y;
 	double side_dist_x;
@@ -71,8 +77,15 @@ typedef struct s_ray {
 	int step_x;
 	int step_y;
 	int hit;
-	int side;
 }	t_ray;
+
+typedef struct s_texture_calc
+{
+    double wall_x;
+    double draw_start;
+    double tex_pos;
+    int tex_x;
+} t_texture_calc;
 
 typedef struct s_texture {
 	// For now, let's just consider a simple wall texture
@@ -91,12 +104,20 @@ typedef struct s_texture {
 typedef struct s_player {
 	double x;
 	double y;
-	double direction; // measured in radians, 0 is east, PI/2 is north, etc.
+	double dir; // measured in radians, 0 is east, PI/2 is north, etc.
 	double dir_x;
 	double dir_y;
 	double speed;
 	double turn_speed;
 }	t_player;
+
+typedef struct	s_line
+{
+	int	start_x;
+	int	start_y;
+	int	end_x;
+	int	end_y;
+}				t_line;
 
 typedef struct s_data {
 	char	**map;
@@ -143,9 +164,7 @@ void data_initiziated(t_data *data);
 
 void cleanup_texture(t_data *data);
 int free_mem(t_data *data);// Frees any dynamically allocated memory associated with the t_data structure
-int set_player_start(t_data *data, char orientation, int x, int y, int *player_start_found);
-void draw_player(t_data *data);
-void draw_textured_walls(t_data *data, int x);
+int set_player_start(t_data *data, char orientation, int x, int y);
 void handle_error(int code);
 void data_init(t_data *data);
 int key_press(int keycode, t_data *data);
@@ -163,6 +182,13 @@ int	parse_color(char *line, t_data *data);
 void load_texture(t_data *data, t_texture *tex, char *path);
 void render(t_data *data);
 int		get_elements(char *line, t_data *data);
-
+void	draw_circle(t_data *data, int x, int y);
+void	draw_player(t_data *data, t_line *line);
+void draw_textured_walls(t_data *data, int x, t_texture *tex);
+void	draw_line(t_data *data, t_line *line);
+void	set_texture(t_data *data, t_texture **tex);
+void calculate_wall_x(t_data *data, t_texture_calc *tex_calc);
+void calculate_texture_pos(t_data *data, t_texture_calc *tex_calc);
+void	calculate_line_dir(t_data *data, t_line *line);
 //void draw_rectangle(t_data *data, int x, int y, int width, int height, int color);
 #endif
