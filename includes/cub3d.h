@@ -6,7 +6,7 @@
 /*   By: tgomes-l <tgomes-l@student.42wolfsburg>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:31:10 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/27 02:34:28 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/27 03:59:00 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <stdbool.h>
 # include "libft.h"
 // # include "mlx/mlx.h"
 
@@ -132,15 +133,13 @@ typedef struct s_enemy {
 */
 
 int		manage_fd(char *filename, t_data *data);
-int		is_map_valid(t_data *data);
+//int		is_map_valid(t_data *data);
 int		free_mem(t_data *data);
 void	data_initiziated(t_data *data, int map_size);
-//void get_textures(int row, char *line, t_data *data);
-// int parsing_tex(char *line);
-int get_elements(char *line, t_data *data);
-int ft_isspace(int c) ;
-int	parse_texture(char *line, t_data *data);
-int	parse_color(char *line, t_data *data);
-int get_map(char *line, t_data *data);
+int		get_elements(char *line, t_data *data);
+int		ft_isspace(int c) ;
+int		parse_texture(char *line, t_data *data);
+int		parse_color(char *line, t_data *data);
+int		get_map(char *line, t_data *data);
 
 #endif

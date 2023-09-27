@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                    */
-/*              :::    ::::::::   */
-/*   textures_parse.c                     :+:   :+:   :+:   */
-/*              +:+ +:+    +:+   */
-/*   By: tgomes-l <tgomes-l@student.42wolfsburg>    +#+  +:+       +#+  */
-/*            +#+#+#+#+#+   +#+  */
-/*   Created: 2023/09/18 23:45:38 by tgomes-l      #+#  #+#        */
-/*   Updated: 2023/09/27 02:08:34 by tgomes-l      ###   ########.fr   */
-/*                    */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   textures_parse.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tgomes-l <tgomes-l@student.42wolfsburg>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/18 23:45:38 by tgomes-l          #+#    #+#             */
+/*   Updated: 2023/09/27 03:34:56 by tgomes-l         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
@@ -22,7 +22,6 @@ int get_elements(char *line, t_data *data)
 		parse_texture(line, data);
 	else if(strstr(line, "F") || strstr(line, "C"))
 	    parse_color(line, data);
-	
 	return (0);
 }
 
