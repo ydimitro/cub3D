@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tgomes-l <tgomes-l@student.42wolfsburg>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:31:10 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/19 04:35:06 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/27 02:34:28 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ typedef struct s_data {
 	char	*south;//for path on file
 	char	*west;//for path on file
 	char	*east;//for path on file
-	char *ceiling_color;
-    char *floor_color;
+	int ceiling_color[3];
+    int floor_color[3];
 
 	void	*mlx_ptr;	   // MLX instance
 	void	*win_ptr;	   // Window pointer
@@ -140,6 +140,7 @@ void	data_initiziated(t_data *data, int map_size);
 int get_elements(char *line, t_data *data);
 int ft_isspace(int c) ;
 int	parse_texture(char *line, t_data *data);
+int	parse_color(char *line, t_data *data);
 int get_map(char *line, t_data *data);
 
 #endif
