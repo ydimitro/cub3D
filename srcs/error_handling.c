@@ -15,13 +15,25 @@
 //starting direction
 void handle_error(int code)
 {
-	if (code == ERR_MULTIPLE_START) {
+	if (code == SUCCESS)
+		return ;
+	else if (code == ERR_MULTIPLE_START) 
 		ft_putstr("Error: Multiple starting positions detected in the map.\n");
-	} else if (code == ERR_NO_START) {
+	else if (code == ERR_NO_START) 
 		ft_putstr("Error: No starting position detected in the map.\n");
-	} // You can add more conditions here as needed.
-
+	else if (code == ERR_INVALID_ARGC)
+        ft_putstr("Please execute like example: ./cub_3d maps/cub_3d\n");
+    else if (code == ERR_INVALID_EXT)
+        ft_putstr("Invalid file extension. Only .cub files are supported.\n");
+    else if (code == ERR_READ_FILE)
+        ft_putstr("An error occurred while reading the file.\n");
+    else if (code == ERR_PLAYER_NR)
+        ft_putstr("Error: There should be only one player on the map.\n");
+    
+	...
 	// free any allocated memory, close any open files, etc.
+	else
+		return ; 
 
 	exit(code); // Exit with the error code
 }

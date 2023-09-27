@@ -105,14 +105,7 @@ int	main(int argc, char **argv)
 			free_mem(&data);
 			return (1);
 		}
-	printf("%s\n", data.north);//testing
-   	printf("%s\n", data.south);//testing
-    printf("%s\n", data.east);//testing
-    printf("%s\n", data.west);//testing
-	printf("%s\n", data.west);//testing
-	printf("Ceiling Color: R=%d, G=%d, B=%d\n", data.ceiling_color[0], data.ceiling_color[1], data.ceiling_color[2]);
-    printf("Floor Color: R=%d, G=%d, B=%d\n", data.floor_color[0], data.floor_color[1], data.floor_color[2]);
-	free_mem(&data);
+		free_mem(&data);
 	}
 
 	// Initializing MLX and creating a window
