@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgomes-l <tgomes-l@student.42wolfsburg>    +#+  +:+       +#+        */
+/*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:30:49 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/27 03:49:05 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/27 18:56:38 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,10 @@ int ft_isspace(int c) {
 //     return 1; // All spaces
 // }
 
-// int get_map(char *line, t_data *data)
-// {
-//     // this not working, need to copy my map here withouth textures and colors, and stabish rows,
-//	// and columns for the rest of parsing
-
-
-//     return 0;
-// }
+int	get_map(char *line, t_data *data)
+{
+  
+	printf("%s\n", line);
+	// printf("\n");
+	return 0;
+}

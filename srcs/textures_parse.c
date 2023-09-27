@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures_parse.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgomes-l <tgomes-l@student.42wolfsburg>    +#+  +:+       +#+        */
+/*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 23:45:38 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/27 03:34:56 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/27 18:44:25 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 // Function to parse texture-and-color-related lines
 
-int get_elements(char *line, t_data *data)
+int get_elements( char *line, t_data *data)
 {
 	if(strstr(line, "NO") || strstr(line, "SO") || strstr(line, "WE") || strstr(line, "EA"))
 		parse_texture(line, data);
-	else if(strstr(line, "EA"))
-		parse_texture(line, data);
+	// else if(strstr(line, "EA"))
+	//  	parse_texture(line, data);
 	else if(strstr(line, "F") || strstr(line, "C"))
 	    parse_color(line, data);
+	else
+		get_map(line, data);
 	return (0);
 }
 
