@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/08 11:45:37 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/19 04:06:21 by tgomes-l         ###   ########.fr       */
-/*                                                                            */
+/*	*/
+/*	:::	  ::::::::   */
+/*   main.c	 :+:	  :+:	:+:   */
+/*	+:+ +:+	 +:+	 */
+/*   By: tgomes-l <tgomes-l@student.42.fr>	  +#+  +:+	   +#+	*/
+/*	+#+#+#+#+#+   +#+	   */
+/*   Created: 2023/09/08 11:45:37 by tgomes-l	  #+#	#+#	 */
+/*   Updated: 2023/09/19 04:06:21 by tgomes-l	 ###   ########.fr	   */
+/*	*/
 /* ************************************************************************** */
 
 #include "cub3d.h"
@@ -16,28 +16,28 @@ int file_divider(int row, t_data *data)
 {
 	int i = 0;
 	char *line;
-    while (i < row)
+	while (i < row)
 	{
 		line = data->map[i];
 		get_elements(line, data);
-		get_map(line, data);
+		//get_map(line, data);
 		i++;
-    }
+	}
 	return(0);
 }
 
 int manage_fd(char *filename, t_data *data)
 {
-    int	fd;
+	int	fd;
 
-    fd = open(filename, O_RDONLY);
-    if (fd == -1)
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
 	{
-        perror("open");
-        return 1;
-    }
-    char *line;
-    int row = 0;
+	perror("open");
+	return 1;
+	}
+	char *line;
+	int row = 0;
 	while ((line = get_next_line(fd)) != NULL) 
 	{
 		if (row < MAP_MAX_SIZE) {
@@ -45,11 +45,11 @@ int manage_fd(char *filename, t_data *data)
 				row++;
 		}
 		data->all_file = row;
-	    free(line);
+		free(line);
 	}
 	file_divider(row, data);
-    close(fd);
-    return 0;
+	close(fd);
+	return 0;
 }
 
 int	main(int argc, char **argv)
@@ -77,7 +77,11 @@ int	main(int argc, char **argv)
 			free_mem(&data);
 			return (1);
 		}
-		free_mem(&data);
+	printf("%s\n", data.north);//testing
+   	printf("%s\n", data.south);//testing
+    printf("%s\n", data.east);//testing
+    printf("%s\n", data.west);//testing
+	free_mem(&data);
 	}
 	return (0);
 }
