@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgomes-l <tgomes-l@student.42wolfsburg>    +#+  +:+       +#+        */
+/*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:31:10 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/27 03:59:00 by tgomes-l         ###   ########.fr       */
+/*   Updated: 2023/09/27 19:16:40 by tgomes-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include "../minilibx-linux/mlx.h"
 
 #define MAP_MAX_SIZE 1024
+
+#define MAX_MAP_LINES 100
 
 #define SUCCESS 0
 #define ERR_MULTIPLE_START 1
@@ -55,13 +57,6 @@
 # define KEY_DOWN			125
 # define KEY_LEFT			123
 # define KEY_RIGHT			124
-
-
-
-
-
-
-
 
 typedef struct s_ray {
 	double dir_x;
@@ -121,6 +116,10 @@ typedef struct	s_line
 
 typedef struct s_data {
 	char	**map;
+	char **game_map;
+	int game_map_size; // Current size of the game map
+    size_t game_map_capacity;
+	int in_map_section;
 	int		all_file;
 	int		map_width;
 	int		map_height;
@@ -161,6 +160,7 @@ int manage_fd(char *filename, t_data *data);
 int	is_map_valid(t_data *data);
 int free_mem(t_data *data);
 void data_initiziated(t_data *data);
+int get_map(char *line, t_data *data);
 
 void cleanup_texture(t_data *data);
 int free_mem(t_data *data);// Frees any dynamically allocated memory associated with the t_data structure
@@ -181,6 +181,7 @@ int	parse_texture(char *line, t_data *data);
 int	parse_color(char *line, t_data *data);
 void load_texture(t_data *data, t_texture *tex, char *path);
 void render(t_data *data);
+int	get_elements(char *line, t_data *data);
 int		get_elements(char *line, t_data *data);
 void	draw_circle(t_data *data, int x, int y);
 void	draw_player(t_data *data, t_line *line);
