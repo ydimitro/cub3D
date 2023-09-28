@@ -21,19 +21,22 @@ void handle_error(int code)
 		ft_putstr("Error: Multiple starting positions detected in the map.\n");
 	else if (code == ERR_NO_START) 
 		ft_putstr("Error: No starting position detected in the map.\n");
-	else if (code == ERR_INVALID_ARGC)
+	else if (code == ERR_INVALID_ARGC) 
         ft_putstr("Please execute like example: ./cub_3d maps/cub_3d\n");
-    else if (code == ERR_INVALID_EXT)
+    else if (code == ERR_INVALID_EXT) 
         ft_putstr("Invalid file extension. Only .cub files are supported.\n");
-    else if (code == ERR_READ_FILE)
+    else if (code == ERR_READ_FILE) 
         ft_putstr("An error occurred while reading the file.\n");
-    else if (code == ERR_PLAYER_NR)
+    else if (code == ERR_PLAYER_NR) 
         ft_putstr("Error: There should be only one player on the map.\n");
-    
-	...
-	// free any allocated memory, close any open files, etc.
-	else
-		return ; 
+	else if (code == ERR_MAP_ALLOCATION_FAILED) 
+    	ft_putstr("Error: Failed to allocate memory for the map.\n");
+	else if (code == ERR_TEXTURE_LOAD_FAILED) 
+    	ft_putstr("Error: Failed to load texture.\n");
+	else if (code == ERR_EMPTY_MAP)
+		ft_putstr("The map is empty\n");
+
+	//free
 
 	exit(code); // Exit with the error code
 }

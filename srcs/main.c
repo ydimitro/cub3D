@@ -83,17 +83,5 @@ int	main(int argc, char **argv)
 		free_mem(&data);
 	}
 
-	// Initializing MLX and creating a window
-	// data.mlx_ptr = mlx_init();
-	// data.win_ptr = mlx_new_window(data.mlx_ptr, data.screen_width, data.screen_height, "Cub3D");
-
-	// // Draw a rectangle to test drawing capabilities
-	//draw_rectangle(&data, 200, 250, 400, 100, 0x00FF00);
-
-	// mlx_hook(data.win_ptr, 2, 0, &key_press, &data);
-
-	// // Enter the MLX loop to keep the window open
-	// mlx_loop(data.mlx_ptr);
-
 	return (0);
 }
