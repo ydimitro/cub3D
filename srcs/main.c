@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "cub3d.h"
 
 int file_divider(int row, t_data *data)
 {
@@ -29,7 +29,6 @@ int file_divider(int row, t_data *data)
 int manage_fd(char *filename, t_data *data)
 {
 	int fd;
-	// int player_start_found = 0; // Flag to track if player's starting position is found.
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
@@ -41,7 +40,6 @@ int manage_fd(char *filename, t_data *data)
 	int row = 0;
 	while ((line = get_next_line(fd)) != NULL) 
 	{
-		//printf("%s", line);
 		if (row < MAP_MAX_SIZE)
 		{
 			data->map[row] = ft_strdup(line);
@@ -62,7 +60,7 @@ int	main(int argc, char **argv)
 	
 	if (argc != 2)
 	{
-		ft_putstr("Please execute like example: ./cub_3d maps/cub_3d\n");
+		handle_error(ERR_INVALID_ARGC);
 		return (1);
 	}
 	else	
@@ -70,18 +68,23 @@ int	main(int argc, char **argv)
 		dot = ft_strrchr(argv[1], '.');
 		if (dot == NULL || ft_strcmp(dot, ".cub") != 0)
 		{
-			ft_putstr("Invalid file extension. Only .cub files are supported.\n");
+			handle_error(ERR_INVALID_EXT);
 			return (1);
 		}
 		data_init(&data);
 		if (manage_fd(argv[1], &data) == -1)
 		{
-			ft_putstr("An error occurred while reading the file.\n");
+			handle_error(ERR_READ_FILE);
 			free_mem(&data);
 			return (1);
 		}
 		free_mem(&data);
 	}
-
+	// Initializing MLX and creating a window
+	data.mlx_ptr = mlx_init();
+	data.win_ptr = mlx_new_window(data.mlx_ptr, data.screen_width, data.screen_height, "Cub3D");
+	mlx_hook(data.win_ptr, 2, 0, &key_press, &data);
+	// Enter the MLX loop to keep the window open
+	mlx_loop(data.mlx_ptr);
 	return (0);
 }
