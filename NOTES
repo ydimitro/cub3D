@@ -1,40 +1,46 @@
-	// Initializing MLX and creating a window
-	// data.mlx_ptr = mlx_init();
-	// data.win_ptr = mlx_new_window(data.mlx_ptr, data.screen_width, data.screen_height, "Cub3D");
+unused or other problems according CLION plugins
 
-	// // Draw a rectangle to test drawing capabilities
-	//draw_rectangle(&data, 200, 250, 400, 100, 0x00FF00);
+# define MAX_MAP_LINES 100
+# define KEY_Q 12
+# define KEY_UP
+# define KEY_DOWN
 
-	// mlx_hook(data.win_ptr, 2, 0, &key_press, &data);
+s_texture_calc 
+- tex_y
+- color
 
-	// // Enter the MLX loop to keep the window open
-	// mlx_loop(data.mlx_ptr);
+s_texture
+- sl
+- end
 
-int manage_fd(char *filename, t_data *data);
-int	is_map_valid(t_data *data);
-int free_mem(t_data *data);
-void data_initiziated(t_data *data);
-int get_map(char *line, t_data *data);
+s_player
+- dir_x
+- dir_y
+- speed
+- turn_speed
 
-void cleanup_texture(t_data *data);
-int free_mem(t_data *data);// Frees any dynamically allocated memory associated with the t_data structure
-int set_player_start(t_data *data, char orientation, int x, int y);
-void handle_error(int code);
-void data_init(t_data *data);
-int key_press(int keycode, t_data *data);
-int manage_fd(char *filename, t_data *data); //opening and reading the game map from a file
-void move_player(t_data *data, float dx, float dy);
-int textures_files(t_data *data);
-int textures_info(t_data *data);
-int	is_map_valid(t_data *data); // Validates if the given map is correct or valid to be played
-void draw_wall_slice(t_data *data, int x);
-void cast_through_map(t_data *data);
-void cast_single_ray(t_data *data, int x);
-int ft_isspace(int c);
-int	parse_texture(char *line, t_data *data);
-int	parse_color(char *line, t_data *data);
+s_data
+- game_map_capacity
+- in_map_section
+- ceiling_color
+- floor_color[3];
+- *img_data;
+- bits_per_pixel;
+- size_line;
+- endian;
 
-void load_all_textures(t_data *data);
-void render(t_data *data);
-int	get_elements(char *line, t_data *data);
-int		get_elements(char *line, t_data *data);
+//destroy.c
+void    cleanup_texture(t_data data);
+
+//direction.c
+int        set_player_start(t_datadata, char orientation, int x, int y);
+
+//drawing_utils_2.c
+void    calc_line_dir(t_data data, t_lineline);
+
+//drawing_utils_texture.c
+void    set_texture(t_data data, t_texture **texture);
+
+//map_get_valid.c
+int        is_map_valid(t_datadata);
+
