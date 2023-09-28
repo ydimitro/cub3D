@@ -21,12 +21,12 @@ CLEANING_TOOL := \xF0\x9F\xA7\xBD
 NAME = cub3d
 
 # Compiler and flags
-CC = clang
+CC = clang -v
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g -I includes/ -I libft/includes/ -I./mlx
 MLX_FLAGS :=  -framework OpenGL -framework AppKit -lm -lmlx -I -L/minilibx-linux/libmlx_linux.a
 # Folders & files
 HEADER = cub3d.h
-FILES = textures_parse destroy direction drawing error_handling init key_press map_parse map_parse2 movement raycasting rendering main#add more files here 
+FILES = destroy direction drawing drawing_utils_texture drawing_utils_2 error_handling init main map_check map_get_valid map_parse_utils movement raycasting rendering main textures_parse
 LIBFT = -L libft -lft
 
 #timing
