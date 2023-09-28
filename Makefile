@@ -21,9 +21,11 @@ CLEANING_TOOL := \xF0\x9F\xA7\xBD
 NAME = cub3d
 
 # Compiler and flags
-CC = clang -v
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g -I includes/ -I libft/includes/ -I./mlx
-MLX_FLAGS :=  -framework OpenGL -framework AppKit -lm -lmlx -I -L/minilibx-linux/libmlx_linux.a
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g -I includes/ -I libft/includes/ -I./minilibx_opengl
+#-I ./minilibx_opengl 
+# MLX_FLAGS :=  -L./mlx -lmlx -framework OpenGL -framework AppKit
+MLX_FLAGS := minilibx_opengl/libmlx.a -framework OpenGL -framework AppKit 
 # Folders & files
 HEADER = cub3d.h
 FILES = destroy direction drawing drawing_utils_texture drawing_utils_2 error_handling init main map_check map_get_valid map_parse_utils movement raycasting rendering main textures_parse
@@ -38,7 +40,7 @@ SRC = $(addsuffix .c, $(addprefix srcs/, $(FILES)))
 # Object files
 OBJ = $(SRC:c=o)
 
-MLX = ./minilibx-linux/
+MLX = ./minilibx_opengl/
 
 all: $(NAME)
                                                                                                                                                             
@@ -48,7 +50,8 @@ $(NAME): $(OBJ)
 	@echo "$(EMOJI_CLOCK)$(ORANGE)Compiling cub3d...$(RESET)"
 	@$(TIMER)
 	@$(MAKE) -C $(MLX)
-	@$(CC) $(CFLAGS) -framework OpenGL -framework AppKit -lm -lmlx -I -L/libs/minilibx-linux/libmlx_linux.a -o $(NAME) $(OBJ) $(LIBFT) $(GNL) $(MLX_FLAGS) 
+	#@$(CC) $(CFLAGS) -framework OpenGL -framework AppKit -lm -lmlx -I -L/libs/minilibx_opengl/libmlx.a -o $(NAME) $(OBJ) $(LIBFT) $(GNL) $(MLX_FLAGS) 
+	@$(CC) $(CFLAGS) $(OBJ) $(MLX_FLAGS)  -o $(NAME) $(LIBFT) $(GNL)
 	@echo "$(EMOJI_HAPPY)$(GREEN)DONE ✓✓$(RESET)"
 	@echo "$(CYAN)$$HEADER$(RESET)"
 	@echo "\n"
