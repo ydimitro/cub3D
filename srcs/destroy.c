@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "cub3d.h"
 
 void	cleanup_texture(t_data *data)
 {
@@ -30,9 +30,9 @@ int	free_mem(t_data *data)
 		free(data->map[i]);
 		i++;
 	}
-	free(data->north);
-	free(data->south);
-	free(data->east);
-	free(data->west);
+	// free(data->north);
+	// free(data->south);
+	// free(data->east);
+	// free(data->west);
 	return (0);
 }

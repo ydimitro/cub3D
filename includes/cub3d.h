@@ -24,8 +24,8 @@
 # include "../minilibx-linux/mlx.h"
 
 # define MAP_MAX_SIZE				1024
-# define MAX_HEIGHT					500
-# define MAX_WIDTH					500
+# define MAX_HEIGHT					1000
+# define MAX_WIDTH					1000
 # define MAX_MAP_LINES				100
 # define SUCCESS					0
 # define ERR_MULTIPLE_START			1

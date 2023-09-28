@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "cub3d.h"
 
 //starting direction
 void handle_error(int code)
@@ -36,7 +36,6 @@ void handle_error(int code)
 	else if (code == ERR_EMPTY_MAP)
 		ft_putstr("The map is empty\n");
 
-	//free
-
-	exit(code); // Exit with the error code
+	else
+	exit(code);
 }

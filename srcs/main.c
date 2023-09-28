@@ -80,8 +80,11 @@ int	main(int argc, char **argv)
 		}
 		free_mem(&data);
 	}
+	data.screen_width = MAX_WIDTH;
+	data.screen_height = MAX_HEIGHT;
 	// Initializing MLX and creating a window
 	data.mlx_ptr = mlx_init();
+	printf("width: %d\nheight:%d\n", data.screen_width, data.screen_height);
 	data.win_ptr = mlx_new_window(data.mlx_ptr, data.screen_width, data.screen_height, "Cub3D");
 	mlx_hook(data.win_ptr, 2, 0, &key_press, &data);
 	// Enter the MLX loop to keep the window open

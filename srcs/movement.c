@@ -71,6 +71,7 @@ int	key_press(int keycode, t_data *data)
 	move_player(data, dx, dy);
 	render(data);
 	mlx_clear_window(data->mlx_ptr, data->win_ptr);
+	printf("test\n");
 	draw_player(data, &line);
 	return (0);
 }

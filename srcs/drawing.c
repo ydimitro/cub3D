@@ -9,7 +9,7 @@
 /*   Updated: 2023/09/17 07:50:06 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../includes/cub3d.h"
+#include "cub3d.h"
 
 void	draw_circle(t_data *data, int x, int y)
 {
@@ -62,6 +62,7 @@ void	draw_line(t_data *data, t_line *line)
 		params.err = -params.dy / 2;
 	while (line->start_x != line->end_x || line->start_y != line->end_y)
 	{
+		printf("x:%d|y:%d\n", line->start_x, line->start_y);
 		mlx_pixel_put(data->mlx_ptr, data->win_ptr,
 			line->start_x, line->start_y, 0xFFFFFF);
 		e2 = params.err;
