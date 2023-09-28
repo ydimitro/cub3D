@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key_press.c                                        :+:      :+:    :+:   */
+/*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ydimitro <ydimitro@students.42wolfsburg.de +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "cub3d.h"
 
 void	handle_movement(int keycode, t_data *data, float *dx, float *dy)
 {
@@ -81,10 +81,10 @@ void	move_player(t_data *data, float dx, float dy)
 	char	x_dest_tile;
 	char	y_dest_tile;
 
-	x_dest_tile = data->map[(int)(data->player_y)][(int)(data->player_x + dx)];
+	x_dest_tile = data->game_map[(int)(data->player_y)][(int)(data->player_x + dx)];
 	if (x_dest_tile != '1')
 		data->player_x += dx;
-	y_dest_tile = data->map[(int)(data->player_y + dy)][(int)(data->player_x)];
+	y_dest_tile = data->game_map[(int)(data->player_y + dy)][(int)(data->player_x)];
 	if (y_dest_tile != '1')
 		data->player_y += dy;
 }
