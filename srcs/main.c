@@ -43,7 +43,7 @@ in data->all_file. After reading all lines, it calls file_divider
 to process the map. If the file cannot be opened, it prints an error
 message and returns -1. Otherwise, it returns 0.
 */
-int manage_fd(char *filename, t_data *data)
+int read_and_parse_file(char *filename, t_data *data)
 {
     int fd;
 
@@ -81,11 +81,11 @@ void check_file_ending(char *filename)
     }
 }
 
-void check_file_readability(char *filename, t_data *data)
+void parse_file(char *filename, t_data *data)
 {
-    if (manage_fd(filename, data) == -1)
+    if (read_and_parse_file(filename, data) == -1)
     {
-        free_mem(data);
+        free_mem(data);     //might cause freeing error
         handle_error(ERR_READ_FILE);
     }
 }
@@ -93,7 +93,7 @@ void check_file_readability(char *filename, t_data *data)
 /*
 1. Check - one arg? .cub?
 2. initializing of data structure
-3. Call manage_fd to read and process the map file, -1 (error, free)
+3. Call read_and_parse_file to read and process the map file, -1 (error, free)
 4. Set screen width and height
 5. MLX init, create window, key press event handler, MLX loop during play
 */
@@ -108,7 +108,7 @@ int	main(int argc, char **argv)
     check_file_ending(argv[1]);
     data = create_data();
     data_init(data);
-    check_file_readability(argv[1], data);
+    parse_file(argv[1], data);
     is_map_valid(data);
     mlx_hook(data->win_ptr, 2, 0, &key_press, &data);
     // Enter the MLX loop to keep the window open
