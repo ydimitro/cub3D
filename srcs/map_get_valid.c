@@ -36,20 +36,59 @@ int	get_map(char *line, t_data *data)
 	return (0);
 }
 
+void set_player(t_data *data)
+{
+	int	i;
+	int j;
+
+	i = 0;
+	while (data->map[i])
+	{
+		j = 0;
+		while (data->map[i][j])
+		{
+			if (data->map[i][j] == 'N' || data->map[i][j] == 'S' || data->map[i][j] == 'E' || data->map[i][j] == 'W')
+			{
+				set_player_start(data,data->map[i][j] , i, j);
+				return ;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+void print2d(char **toPrint)
+{
+	int i = 0;
+
+	while (toPrint[i])
+	{
+		write(1, toPrint[i], ft_strlen(toPrint[i]));
+		write(1, "\n", 1);
+		i++;
+	}
+}
+
 int	is_map_valid(t_data *data)
 {
 	bool	visited[MAX_HEIGHT][MAX_WIDTH];
+
+	print2d(data->map);
+	write(1, "\n", 1);
+	print2d(data->game_map); // segfault
 
 	ft_memset(visited, false, sizeof(visited));
 	if (is_map_empty(data))
 		return (0);
 	if (!check_valid_chars(data))
 		return (0);
-	if (!check_player_count(data->map, data->map_height, data->map_width))
+	if (!check_player_count(data->game_map))
 		return (0);
 	if (!is_map_closed(data))
 		return (0);
 	if (!check_boundary_cells(visited, data->map_height, data->map_width))
 		return (0);
+	set_player(data);
 	return (1);
 }

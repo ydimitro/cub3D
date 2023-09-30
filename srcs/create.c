@@ -12,51 +12,10 @@
 
 #include "cub3d.h"
 
-void	cleanup_texture(t_data *data)
+t_data *create_data()
 {
-	mlx_destroy_image(data->mlx_ptr, data->north_tex.img);
-	mlx_destroy_image(data->mlx_ptr, data->south_tex.img);
-	mlx_destroy_image(data->mlx_ptr, data->west_tex.img);
-	mlx_destroy_image(data->mlx_ptr, data->east_tex.img);
-}
+    t_data *start;
 
-int	free_mem(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->all_file)
-	{
-		free(data->map[i]);
-		i++;
-	}
-	return (0);
-}
-
-void destroy_data(t_data *data)
-{
-	destroy_2d_array(data->map);
-	destroy_2d_array(data->game_map);
-	free(data->north);
-	free(data->south);
-	free(data->east);
-	free(data->west);
-	free(data->mlx_ptr); //do these need a specific mlx function to free
-	free(data->win_ptr);
-	free(data->img_ptr);
-	free(data->img_data);
-	free(data);
-}
-
-void destroy_2d_array(char **data_map)
-{
-	int i;
-
-	i = 0;
-	while (data_map[i])
-	{
-		free(data_map[i]);
-		i++;
-	}
-	free(data_map);
+    start = ft_calloc(1, sizeof(t_data));
+    return start;
 }

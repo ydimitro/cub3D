@@ -131,7 +131,7 @@ typedef struct s_data {
 	int 		game_map_size;
 	size_t 		game_map_capacity;
 	int 		in_map_section;
-	int			all_file;
+	int			all_file; // number of rows
 	int			map_width;
 	int			map_height;
 	char		*north;
@@ -167,9 +167,14 @@ typedef struct s_data {
 	double		DIST_TO_PROJ_PLANE;
 }	t_data;
 
+//create.c
+t_data *create_data();
+
 //destroy.c
 void	cleanup_texture(t_data *data);
 int		free_mem(t_data *data);
+void	destroy_2d_array(char **data_map);
+void	destroy_data(t_data *data);
 
 //direction.c
 int		set_player_start(t_data *data, char orientation, int x, int y);
@@ -204,7 +209,7 @@ void	load_all_textures(t_data *data);
 //map_check.c
 int		is_map_empty(t_data *data);
 int		check_valid_chars(t_data *data);
-int		check_player_count(char **map, int height, int width);
+int		check_player_count(char **map);
 bool	is_map_closed(t_data *data);
 int		check_boundary_cells(bool visited[][MAX_WIDTH], int height, int width);
 
@@ -215,7 +220,7 @@ int		is_map_valid(t_data *data);
 
 //map_parse_utils.c
 int		is_valid_char(char c);
-int		count_players(char **map, int height, int width);
+int		count_players(char **map);
 void	dfs(int row, int col, t_data *data,
 	bool visited[data->map_height][data->map_width]);
 int		resize_game_map(t_data *data);

@@ -35,7 +35,5 @@ void handle_error(int code)
     	ft_putstr("Error: Failed to load texture.\n");
 	else if (code == ERR_EMPTY_MAP)
 		ft_putstr("The map is empty\n");
-
-	else
 	exit(code);
 }

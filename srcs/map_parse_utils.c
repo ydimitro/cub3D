@@ -20,7 +20,7 @@ int	is_valid_char(char c)
 	return (0);
 }
 
-int	count_players(char **map, int height, int width)
+int	count_players(char **map)
 {
 	int	player_count;
 	int	i;
@@ -28,15 +28,16 @@ int	count_players(char **map, int height, int width)
 
 	player_count = 0;
 	i = 0;
-	while (i < height)
+	while (map[i])
 	{
 		j = 0;
-		while (j < width)
+		while (map[i][j])
 		{
 			if (map[i][j] == 'N' || map[i][j] == 'S'
 				|| map[i][j] == 'E' || map[i][j] == 'W')
 			{
 				player_count++;
+				printf("x:%d | y:%d\n", i, j);
 			}
 			j++;
 		}
@@ -64,19 +65,20 @@ int	resize_game_map(t_data *data)
 	char	**temp;
 
 	data->all_file *= 2;
-	temp = (char **)realloc(data->game_map, sizeof(char *) * data->all_file);
+	temp = (char **)realloc(data->game_map, sizeof(char *) * (data->game_map_size + 1)); // null termination
 	if (!temp)
 	{
 		handle_error(ERR_MAP_ALLOCATION_FAILED);
 		return (1);
 	}
+	temp[data->all_file] = NULL;
 	data->game_map = temp;
 	return (0);
 }
 
 int	allocate_initial_map(t_data *data)
 {
-	data->game_map = (char **)malloc(sizeof(char *) * data->all_file);
+	data->game_map = (char **)ft_calloc(1, sizeof(char *) * data->all_file);
 	if (data->game_map == NULL)
 	{
 		handle_error(ERR_MAP_ALLOCATION_FAILED);

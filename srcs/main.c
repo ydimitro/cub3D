@@ -24,6 +24,7 @@ int file_divider(int row, t_data *data)
 {
 	int i = 0;
 	char *line;
+
 	while (i < row)
 	{
 		line = data->map[i];
@@ -80,7 +81,7 @@ int manage_fd(char *filename, t_data *data)
 int	main(int argc, char **argv)
 {
 	char	*dot;
-	t_data	data;
+	t_data	*data;
 	
 	if (argc != 2)
 	{
@@ -95,23 +96,24 @@ int	main(int argc, char **argv)
 			handle_error(ERR_INVALID_EXT);
 			return (1);
 		}
-		data_init(&data);
-		if (manage_fd(argv[1], &data) == -1)
+		data = create_data();
+		data_init(data);
+		if (manage_fd(argv[1], data) == -1)
 		{
 			handle_error(ERR_READ_FILE);
-			free_mem(&data);
+			free_mem(data);
 			return (1);
 		}
-		free_mem(&data);
 	}
-	data.screen_width = MAX_WIDTH;
-	data.screen_height = MAX_HEIGHT;
+	is_map_valid(data);
+	data->screen_width = MAX_WIDTH;
+	data->screen_height = MAX_HEIGHT;
 	// Initializing MLX and creating a window
-	data.mlx_ptr = mlx_init();
-	printf("width: %d\nheight:%d\n", data.screen_width, data.screen_height);
-	data.win_ptr = mlx_new_window(data.mlx_ptr, data.screen_width, data.screen_height, "Cub3D");
-	mlx_hook(data.win_ptr, 2, 0, &key_press, &data);
+	data->mlx_ptr = mlx_init();
+	printf("width: %d\nheight:%d\n", data->screen_width, data->screen_height);
+	data->win_ptr = mlx_new_window(data->mlx_ptr, data->screen_width, data->screen_height, "Cub3D");
+	mlx_hook(data->win_ptr, 2, 0, &key_press, &data);
 	// Enter the MLX loop to keep the window open
-	mlx_loop(data.mlx_ptr);
+	mlx_loop(data->mlx_ptr);
 	return (0);
 }

@@ -42,11 +42,11 @@ int	check_valid_chars(t_data *data)
 	return (1);
 }
 
-int	check_player_count(char **map, int height, int width)
+int	check_player_count(char **map)
 {
 	int	player_count;
 
-	player_count = count_players(map, height, width);
+	player_count = count_players(map);
 	if (player_count != 1)
 	{
 		handle_error(ERR_PLAYER_NR);

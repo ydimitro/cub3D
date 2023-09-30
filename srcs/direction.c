@@ -16,13 +16,13 @@ int	set_player_start(t_data *data, char orientation, int x, int y)
 {
 	data->player.x = x;
 	data->player.y = y;
-	if (ft_strcmp(&orientation, "NO") == 1)
+	if (ft_strcmp(&orientation, "N") == 1)
 		data->player_dir = 90.0;
-	else if (ft_strcmp(&orientation, "EA") == 1)
+	else if (ft_strcmp(&orientation, "E") == 1)
 		data->player_dir = 0.0;
-	else if (ft_strcmp(&orientation, "SO") == 1)
+	else if (ft_strcmp(&orientation, "S") == 1)
 		data->player_dir = 270.0;
-	else if (ft_strcmp(&orientation, "WE") == 1)
+	else if (ft_strcmp(&orientation, "W") == 1)
 		data->player_dir = 180.0;
 	return (0);
 }

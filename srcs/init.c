@@ -42,6 +42,9 @@ void	data_init(t_data *data)
 	data->player.dir = 3.14159 / 2;
 	data->player.speed = 0.1; //.h MOVE_SPEED
 	data->player.turn_speed = 0.05; //.h ROT_SPEED
+	//mlx
+	data->mlx_ptr = mlx_init();
+	load_all_textures(data);
 }
 
 static void load_texture(t_data *data, t_texture *tex, char *path)
@@ -50,7 +53,10 @@ static void load_texture(t_data *data, t_texture *tex, char *path)
 	tex->img = mlx_xpm_file_to_image(data->mlx_ptr,
 			path, &tex->width, &tex->height);
 	if (!tex->img)
+	{
 		handle_error(ERR_TEXTURE_LOAD_FAILED);
+		
+	}
 
 	//calling the pixel data based on the image properties
 	tex->addr = mlx_get_data_addr(tex->img, &tex->bpp,
@@ -59,9 +65,9 @@ static void load_texture(t_data *data, t_texture *tex, char *path)
 
 void	load_all_textures(t_data *data)
 {
-	load_texture(data, &data->north_tex, "../textures/north.xpm");
-	load_texture(data, &data->south_tex, "../textures/south.xpm");
-	load_texture(data, &data->west_tex, "../textures/west.xpm");
-	load_texture(data, &data->east_tex, "../textures/east.xpm");
+	load_texture(data, &data->north_tex, "textures/north.xpm");
+	load_texture(data, &data->south_tex, "textures/south.xpm");
+	load_texture(data, &data->west_tex, "textures/west.xpm");
+	load_texture(data, &data->east_tex, "textures/east.xpm");
 }
 
