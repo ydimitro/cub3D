@@ -18,7 +18,7 @@ void	data_init(t_data *data)
 	
 	//calculating how far a ray should be casted
 	data->DIST_TO_PROJ_PLANE = (SCREEN_WIDTH / 2) / tan(FOV / 2);
-	data->map = (char **)malloc(sizeof(char *) * MAP_MAX_SIZE);
+	data->map = (char **)malloc(sizeof(char *) * MAP_MAX_SIZE); // check if works when deleted
 	if (!data->map)
 		handle_error(ERR_MAP_ALLOCATION_FAILED);
 	i = 0;
@@ -27,7 +27,7 @@ void	data_init(t_data *data)
 	{
 		data->map[i] = 0;
 		i++;
-	}
+	}                                   // till here
 	//map dimensions init
 	data->map_width = 0;
 	data->map_height = 0;
@@ -42,9 +42,13 @@ void	data_init(t_data *data)
 	data->player.dir = 3.14159 / 2;
 	data->player.speed = 0.1; //.h MOVE_SPEED
 	data->player.turn_speed = 0.05; //.h ROT_SPEED
+    data->screen_width = MAX_WIDTH;
+    data->screen_height = MAX_HEIGHT;
 	//mlx
 	data->mlx_ptr = mlx_init();
-	load_all_textures(data);
+    data->win_ptr = mlx_new_window(data->mlx_ptr, data->screen_width, data->screen_height, "Cub3D");
+
+    load_all_textures(data);
 }
 
 static void load_texture(t_data *data, t_texture *tex, char *path)
