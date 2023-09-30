@@ -20,18 +20,18 @@ int	ft_isspace(int c)
 	return (0);
 }
 
+void add_line_to_game_map(char *line, t_data *data)
+{
+    data->game_map[data->game_map_size] = ft_strdup(line);
+    if (!data->game_map[data->game_map_size])
+        handle_error(ERR_MAP_ALLOCATION_FAILED);
+}
+
 int	get_map(char *line, t_data *data)
 {
 	if (data->game_map == NULL && allocate_initial_map(data))
-		return (1);
-	if (data->game_map_size == data->all_file && resize_game_map(data))
-		return (1);
-	data->game_map[data->game_map_size] = ft_strdup(line);
-	if (data->game_map[data->game_map_size] == NULL)
-	{
-		handle_error(ERR_MAP_ALLOCATION_FAILED);
-		return (1);
-	}
+        allocate_initial_map(data);
+    add_line_to_game_map(line, data);
 	data->game_map_size++;
 	return (0);
 }

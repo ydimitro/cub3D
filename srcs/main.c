@@ -28,7 +28,6 @@ int file_divider(int row, t_data *data)
     {
         line = data->map[i];
         get_elements(line, data);
-
         i++;
     }
     return(0);
@@ -46,6 +45,7 @@ message and returns -1. Otherwise, it returns 0.
 int read_and_parse_file(char *filename, t_data *data)
 {
     int fd;
+    char *line;
 
     fd = open(filename, O_RDONLY);
     if (fd == -1)
@@ -53,19 +53,16 @@ int read_and_parse_file(char *filename, t_data *data)
         perror("open");
         return (-1);
     }
-    char *line;
-    int row = 0;
     while ((line = get_next_line(fd)) != NULL)
     {
-        if (row < MAP_MAX_SIZE)
+        if (data->all_file < MAP_MAX_SIZE)
         {
-            data->map[row] = ft_strdup(line);
-            row++;
+            data->map[data->all_file] = ft_strdup(line);
+            data->all_file++;
         }
-        data->all_file = row;
         free(line);
     }
-    file_divider(row, data);
+    file_divider(data->all_file, data);
     close(fd);
     return (0);
 }
