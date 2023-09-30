@@ -12,6 +12,14 @@
 
 #include "cub3d.h"
 
+/*
+This function iterates over each row of the map stored in the data structure. 
+For each row, it retrieves the corresponding line of the map and calls 
+the get_elements function with this line and the data structure. 
+The get_elements function parses the line to extract relevant information 
+about the map (e.g., wall positions, player start position, etc.). 
+The function always returns 0.
+*/
 int file_divider(int row, t_data *data)
 {
 	int i = 0;
@@ -26,6 +34,15 @@ int file_divider(int row, t_data *data)
 	return(0);
 }
 
+/*
+This function opens the file specified by filename for reading. 
+It then reads each line of the file using the get_next_line function 
+and stores up to MAP_MAX_SIZE lines in the data structure. 
+The function also counts the number of lines read and stores this count 
+in data->all_file. After reading all lines, it calls file_divider 
+to process the map. If the file cannot be opened, it prints an error 
+message and returns -1. Otherwise, it returns 0.
+*/
 int manage_fd(char *filename, t_data *data)
 {
 	int fd;
@@ -53,6 +70,13 @@ int manage_fd(char *filename, t_data *data)
 	return (0);
 }
 
+/*
+1. Check - one arg? .cub?
+2. initializing of data structure
+3. Call manage_fd to read and process the map file, -1 (error, free)
+4. Set screen width and height
+5. MLX init, create window, key press event handler, MLX loop during play 
+*/
 int	main(int argc, char **argv)
 {
 	char	*dot;

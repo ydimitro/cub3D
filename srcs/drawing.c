@@ -11,6 +11,11 @@
 /* ************************************************************************** */
 #include "cub3d.h"
 
+/*
+This function draws a small cross-shaped pattern on the screen at 
+the specified (x, y) coordinates. The pattern is intended to represent 
+a circle or point on the screen.
+*/
 void	draw_circle(t_data *data, int x, int y)
 {
 	int	color;
@@ -23,8 +28,15 @@ void	draw_circle(t_data *data, int x, int y)
 	mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y - 1, color);
 }
 
+/*
+sets the endpoint for a line representing the player's direction.
+Should be called before any rendering or drawing.
+*20 = how far out the endpoint of the line (player's dir) should be from
+its starting point. With factor 20 the line is better visible
+*/
 void	set_line_endpoints(t_data *data, t_line *line)
 {
+	//horizontal ray
 	if (data->ray.side == 0)
 	{
 		if (data->ray.dir_x > 0)
@@ -32,6 +44,7 @@ void	set_line_endpoints(t_data *data, t_line *line)
 		else
 			line->end_x = (int)(line->start_x - cos(data->player.dir) * 20);
 	}
+	//vertical ray
 	if (data->ray.side == 1)
 	{
 		if (data->ray.dir_y > 0)

@@ -21,7 +21,7 @@
 # include <stdbool.h>
 # include <math.h>
 # include "../libft/includes/libft.h"
-# include "../minilibx-linux/mlx.h"
+# include "../minilibx_opengl/mlx.h"
 
 # define MAP_MAX_SIZE				1024
 # define MAX_HEIGHT					1000
