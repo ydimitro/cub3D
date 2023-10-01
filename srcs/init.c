@@ -47,6 +47,8 @@ void	data_init(t_data *data)
 	//mlx
 	data->mlx_ptr = mlx_init();
     data->win_ptr = mlx_new_window(data->mlx_ptr, data->screen_width, data->screen_height, "Cub3D");
+	data->img_ptr = mlx_new_image(data->mlx_ptr, MAX_WIDTH, MAX_HEIGHT);
+	data->img_adr = mlx_get_data_addr(data->img_ptr, &data->bits_per_pixel, &data->size_line, &data->endian);
 
     load_all_textures(data);
 }

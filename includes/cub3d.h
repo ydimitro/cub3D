@@ -143,6 +143,7 @@ typedef struct s_data {
 	void		*mlx_ptr;
 	void		*win_ptr;
 	void		*img_ptr;
+	void		*img_adr;
 	char		*img_data;
 	int	 		bits_per_pixel;
 	int	 		size_line;
@@ -188,6 +189,7 @@ void	calc_texture_pos(t_data *data, t_texture_calc *texture_calc);
 void	initialize_texture_variables(t_data *data, t_texture_calc *texture_calc);
 void	draw_textured_walls(t_data *data, int x, t_texture *texture);
 void	draw_wall_slice(t_data *data, int x);
+void    my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 //drawing.c
 void	draw_circle(t_data *data, int x, int y);

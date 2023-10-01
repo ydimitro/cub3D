@@ -74,9 +74,10 @@ int	key_press(int keycode, t_data *data)
 	printf("2x:%f | y: %f\n", data->player.x, data->player.y);
 	move_player(data, dx, dy);
 	printf("MOVE PLAYER DONE\n");
-	render(data);
+	render(data); //render after each move
 	printf("RENDER DONE\n");
 	mlx_clear_window(data->mlx_ptr, data->win_ptr);
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img_ptr, 0, 0);
 	printf("WINDOW CLEAR DONE\n");
 	//draw_player(data);
 	printf("DRAW PLAYER DONE\n");

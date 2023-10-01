@@ -21,32 +21,6 @@ float	normalize_angle(float angle)
 	return (angle);
 }
 
-void	render(t_data *data)
-{
-	int		x;
-	float	ray_angle;
-	float	slice_height;
-	float	top_pixel;
-
-	x = 0;
-	mlx_clear_window(data->mlx_ptr, data->win_ptr);
-	while (x < data->map_width)
-	{
-		ray_angle = normalize_angle(data->player_dir
-				+ (x - data->map_width / 2) * FOV / data->map_width);
-		cast_single_ray(data, x);
-		slice_height = (data->tile_size / data->ray.perp_wall_dist)
-			* data->DIST_TO_PROJ_PLANE;
-		top_pixel = (data->map_height / 2) - (slice_height / 2);
-		if (top_pixel < 0)
-			return ;
-		if (data->ray.hit)
-			ray_direction(data);
-		x++;
-	}
-}
-
-
 t_texture *ray_direction(t_data *data)
 {
 	int x;
@@ -66,3 +40,72 @@ t_texture *ray_direction(t_data *data)
 		return (&data->west_tex);
 
 }
+
+void	set_texture(t_data *data, t_texture **tex)
+{
+	//vertical wall
+	if (data->ray.side == 0)
+	{
+		if (data->ray.step_x == 1) //if moving right, south tex, north otherwise
+			*tex = &data->south_tex;
+		else
+			*tex = &data->north_tex;
+	}
+	else // != 0 horizontal wall, same logic
+	{
+		if (data->ray.step_y == 1)
+			*tex = &data->east_tex;
+		else
+			*tex = &data->west_tex;
+	}
+}
+
+t_texture *get_hit_texture(t_data *data)
+{
+	t_texture *tex;
+
+	set_texture(data, &tex);
+	return tex;
+}
+
+bool ray_casting(t_data *data, int pixel)
+{
+	float	ray_angle;
+	float	slice_height;
+	float	top_pixel;
+
+	ray_angle = normalize_angle(data->player_dir
+				+ (pixel - data->map_width / 2) * FOV / data->map_width);
+	cast_single_ray(data, pixel);
+	slice_height = (data->tile_size / data->ray.perp_wall_dist)
+		* data->DIST_TO_PROJ_PLANE;
+	top_pixel = (data->map_height / 2) - (slice_height / 2);
+	if (top_pixel < 0)
+		return false;
+	if (data->ray.hit)
+		return true;
+	return false;
+}
+
+
+
+void	render(t_data *data)
+{
+	int		x;
+	t_texture *texture;
+
+	x = 0;
+	while (x < data->map_width)
+	{
+		if (ray_casting(data, x))
+		{
+			texture = get_hit_texture(data);
+			draw_wall_slice(data, x);
+			
+			// call drawing function here
+		}
+		x++;
+	}
+}
+
+

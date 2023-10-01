@@ -12,31 +12,12 @@
 
 #include "cub3d.h"
 
-removed the whole filefrom the Makefile
-
 //it is not called anywhere, basically does the same as parse_texture
 
 /*
 Determines which texture to use based on the ray's direction and side.
 */
-// void	set_texture(t_data *data, t_texture **tex)
-// {
-// 	//vertical wall
-// 	if (data->ray.side == 0)
-// 	{
-// 		if (data->ray.step_x == 1) //if moving right, south tex, north otherwise
-// 			*tex = &data->south_tex;
-// 		else
-// 			*tex = &data->north_tex;
-// 	}
-// 	else // != 0 horizontal wall, same logic
-// 	{
-// 		if (data->ray.step_y == 1)
-// 			*tex = &data->east_tex;
-// 		else
-// 			*tex = &data->west_tex;
-// 	}
-// }
+
 
 /*
 Calculates the starting position and x-coordinate of the texture to be used 
@@ -56,7 +37,7 @@ void	calc_texture_pos(t_data *data, t_texture_calc *tex_calc)
 
 void	calc_wall_x(t_data *data, t_texture_calc *tex_calc)
 {
-if (data->ray.side == 0)
+	if (data->ray.side == 0)
 		tex_calc->wall_x = data->player.y
 			+ data->ray.perp_wall_dist * data->ray.dir_y;
 	else
@@ -93,14 +74,19 @@ void	draw_textured_walls(t_data *data, int x, t_texture *tex)
 		tex_y = (int)tex_calc.tex_pos & (tex->height - 1);
 		color = *(int *)(tex->addr + (tex_y * tex->line_length
 					+ tex_calc.tex_x * (tex->bpp / 8)));
-		mlx_pixel_put(data->mlx_ptr, data->win_ptr, x,
-			tex_calc.draw_start, color);
+		my_mlx_pixel_put(data, x, tex_calc.draw_start, color);
 		tex_calc.draw_start++;
 		tex_calc.tex_pos += 1.0 * tex->height / data->ray.dir_x;
 	}
 }
 
+void    my_mlx_pixel_put(t_data *data, int x, int y, int color)
+{
+    char    *dst;
 
+    dst = data->img_adr + (y * data->size_line + x * (data->bits_per_pixel / 8));
+    *(unsigned int *)dst = color;
+}
 //raycasting
 /*
 Draws a vertical slice of the wall on the screen.
@@ -115,19 +101,18 @@ void	draw_wall_slice(t_data *data, int x)
 	int	line_height;
 	int	draw_start;
 	int	draw_end;
-	int	color;
+	// int	color;
 	t_texture	*tex;
-	char *line;
 
 	tex = NULL;
 	set_wall_distance(data);
 	line_height = (int)(data->screen_height / data->ray.perp_wall_dist);
 	draw_start = -line_height / 2 + data->screen_height / 2;
 	draw_end = line_height / 2 + data->screen_height / 2;
-	while (draw_start <= draw_end)
-	{
-		mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, draw_start, color);
-		draw_start++;
-	}
+	// while (draw_start <= draw_end)
+	// {
+	// 	mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, draw_start, color);
+	// 	draw_start++;
+	// }
 	draw_textured_walls(data, x, tex);
 }
