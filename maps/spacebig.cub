@@ -1,7 +1,7 @@
-NO ./resourses/north.xpm
-SO ./resourses/south.xpm
-WE ./resourses/west.xpm
-EA ./resourses/east.xpm
+NO ./textures/north.xpm
+SO ./textures/south.xpm
+WE ./textures/west.xpm
+EA ./textures/east.xpm
 
 C 99, 0, 128
 F 205, 192, 203

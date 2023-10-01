@@ -44,7 +44,7 @@ int	parse_texture(char *line, t_data *data)
 		i++;
 
 	// Find the texture path in the line (expected to start with "./")
-	texture_path = ft_strstr(line + i, "./");
+	texture_path = ft_strstr(line + i, "./") + 2;
 
 	// If a texture path is found
 	if (texture_path)
@@ -61,7 +61,10 @@ int	parse_texture(char *line, t_data *data)
 		t_texture *new_texture = malloc(sizeof(t_texture));
 
 		// Load the texture image using MLX and store its data in the new texture structure
+		printf("%s\n", texture_path);
 		new_texture->img = mlx_xpm_file_to_image(data->mlx_ptr, texture_path, &new_texture->width, &new_texture->height);
+		if (!new_texture->img)
+			handle_error(ERR_TEXTURE_LOAD_FAILED);
 		new_texture->addr = mlx_get_data_addr(new_texture->img, &new_texture->bpp, &new_texture->line_length, &new_texture->endian);
 
 		// Determine which direction the texture corresponds to and store the texture data in the appropriate field of the data structure

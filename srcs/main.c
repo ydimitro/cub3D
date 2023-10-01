@@ -121,12 +121,14 @@ int	main(int argc, char **argv)
     parse_file(argv[1], data);
 	printf("4x:%f | y: %f\n", data->player.x, data->player.y);
     is_map_valid(data);
+
     mlx_hook(data->win_ptr, 2, 0, &key_press, data);
 
-    mlx_key_hook(, &key_press, data);
-    mlx_hook(data->win_ptr, 2, 0, &key_press, data);
 
-
+    mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->north_tex.img, 0, 0);
+    mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->south_tex.img, 100, 0);
+    mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->west_tex.img, 0, 100);
+    mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->east_tex.img, 100, 100);
     // Enter the MLX loop to keep the window open
 	printf("5x:%f | y: %f\n", data->player.x, data->player.y);
 	printf("before\n");
