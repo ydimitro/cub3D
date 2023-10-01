@@ -39,7 +39,7 @@
 # define ERR_EMPTY_MAP				9
 # define SCREEN_WIDTH				800
 # define FOV						60
-# define MOVE_SPEED					60
+# define MOVE_SPEED					1
 # define ROT_SPEED					60
 # define KEY_ESC					53
 # define KEY_Q						12
@@ -192,7 +192,7 @@ void	draw_wall_slice(t_data *data, int x);
 //drawing.c
 void	draw_circle(t_data *data, int x, int y);
 void	set_line_endpoints(t_data *data, t_line *line);
-void	draw_player(t_data *data, t_line *line);
+void	draw_player(t_data *data);
 void	draw_line(t_data *data, t_line *line);
 
 //error_handling.c

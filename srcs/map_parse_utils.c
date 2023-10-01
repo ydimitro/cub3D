@@ -37,7 +37,6 @@ int	count_players(char **map)
 				|| map[i][j] == 'E' || map[i][j] == 'W')
 			{
 				player_count++;
-				printf("x:%d | y:%d\n", i, j);
 			}
 			j++;
 		}

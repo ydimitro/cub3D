@@ -42,14 +42,14 @@ void set_player(t_data *data)
 	int j;
 
 	i = 0;
-	while (data->map[i])
+	while (data->game_map[i])
 	{
 		j = 0;
-		while (data->map[i][j])
+		while (data->game_map[i][j])
 		{
-			if (data->map[i][j] == 'N' || data->map[i][j] == 'S' || data->map[i][j] == 'E' || data->map[i][j] == 'W')
+			if (data->game_map[i][j] == 'N' || data->game_map[i][j] == 'S' || data->game_map[i][j] == 'E' || data->game_map[i][j] == 'W')
 			{
-				set_player_start(data,data->map[i][j] , i, j);
+				set_player_start(data,data->game_map[i][j] , i, j);
 				return ;
 			}
 			j++;

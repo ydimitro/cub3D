@@ -37,6 +37,7 @@ its starting point. With factor 20 the line is better visible
 void	set_line_endpoints(t_data *data, t_line *line)
 {
 	//horizontal ray
+	printf("side:%d\n", data->ray.side);
 	if (data->ray.side == 0)
 	{
 		if (data->ray.dir_x > 0)
@@ -54,19 +55,32 @@ void	set_line_endpoints(t_data *data, t_line *line)
 	}
 }
 
-void	draw_player(t_data *data, t_line *line)
+/*
+the player is represented by a circle and a line. 
+*/
+void	draw_player(t_data *data)
 {
-	line->start_x = (int)(data->player.x * 10);
-	line->start_y = (int)(data->player.y * 10);
-	set_line_endpoints(data, line);
-	draw_circle(data, line->start_x, line->start_y);
-	draw_line(data, line);
+	t_line line;
+
+	line.end_x = 0;
+	line.end_y = 0;
+	line.start_x = (int)(data->player.x * 10);
+	line.start_y = (int)(data->player.y * 10);
+	set_line_endpoints(data, &line);
+	draw_circle(data, line.start_x, line.start_y);
+	printf("end_x: %d | end_y: %d\n", line.end_x, line.end_y);
+	draw_line(data, &line);
 }
 
+/*
+Bresenham's line algorithm, a way to draw lines on a grid (like pixels on a screen) 
+without using floating-point arithmetic.
+*/
 void	draw_line(t_data *data, t_line *line)
 {
 	t_line_params	params;
 	int				e2;
+	int i = 0;
 
 	calc_deltas_and_steps(line, &params);
 	if (params.dx > params.dy)
@@ -89,5 +103,8 @@ void	draw_line(t_data *data, t_line *line)
 			params.err += params.dx;
 			line->start_y += params.sy;
 		}
+		if (i == 500)
+			exit(1);
+		i++;
 	}
 }
