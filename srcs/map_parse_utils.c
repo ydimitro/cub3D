@@ -20,7 +20,7 @@ int	is_valid_char(char c)
 	return (0);
 }
 
-int	count_players(char **map)
+int	count_players(char **game_map)
 {
 	int	player_count;
 	int	i;
@@ -28,13 +28,14 @@ int	count_players(char **map)
 
 	player_count = 0;
 	i = 0;
-	while (map[i])
+	while (game_map[i] && i < MAP_MAX_SIZE)
 	{
+		printf("%d\n", i);
 		j = 0;
-		while (map[i][j])
+		while (game_map[i][j] && j < MAP_MAX_SIZE)
 		{
-			if (map[i][j] == 'N' || map[i][j] == 'S'
-				|| map[i][j] == 'E' || map[i][j] == 'W')
+			if (game_map[i][j] == 'N' || game_map[i][j] == 'S'
+				|| game_map[i][j] == 'E' || game_map[i][j] == 'W')
 			{
 				player_count++;
 			}
@@ -61,7 +62,7 @@ void	dfs(int row, int col, t_data *data,
 
 int	allocate_initial_map(t_data *data)
 {
-	data->game_map = (char **)ft_calloc(1, sizeof(char *) * data->all_file);
+	data->game_map = (char **)ft_calloc(1, sizeof(char *) * (data->all_file + 1));
 	if (data->game_map == NULL)
 	{
 		handle_error(ERR_MAP_ALLOCATION_FAILED);

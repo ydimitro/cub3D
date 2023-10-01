@@ -236,6 +236,7 @@ void	set_ray_step_and_side_dist(t_data *data);
 
 //rendering.c
 void	render(t_data *data);
+t_texture *ray_direction(t_data *data);
 
 //textures_parse.c
 int		get_elements( char *line, t_data *data);

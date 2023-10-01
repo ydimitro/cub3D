@@ -122,9 +122,15 @@ int	main(int argc, char **argv)
 	printf("4x:%f | y: %f\n", data->player.x, data->player.y);
     is_map_valid(data);
     mlx_hook(data->win_ptr, 2, 0, &key_press, data);
+
+    mlx_key_hook(, &key_press, data);
+    mlx_hook(data->win_ptr, 2, 0, &key_press, data);
+
+
     // Enter the MLX loop to keep the window open
 	printf("5x:%f | y: %f\n", data->player.x, data->player.y);
 	printf("before\n");
     mlx_loop(data->mlx_ptr);
+    
     return (0);
 }

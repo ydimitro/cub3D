@@ -46,6 +46,7 @@ int	check_player_count(char **map)
 {
 	int	player_count;
 
+	// printf("%s\n", map[0]);
 	player_count = count_players(map);
 	if (player_count != 1)
 	{

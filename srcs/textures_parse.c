@@ -14,43 +14,69 @@
 
 int	get_elements( char *line, t_data *data)
 {
-	if (strstr(line, "NO") || strstr(line, "SO")
-		|| strstr(line, "WE") || strstr(line, "EA"))
+	if (ft_strstr(line, "NO") || ft_strstr(line, "SO")
+		|| ft_strstr(line, "WE") || ft_strstr(line, "EA"))
 		parse_texture(line, data);
-	else if (strstr(line, "F") || strstr(line, "C"))
+	else if (ft_strstr(line, "F") || ft_strstr(line, "C"))
 		parse_color(line, data);
 	else if (ft_strchr(line, '1'))
 		get_map(line, data);
 	return (0);
 }
-
+/**
+ * Parses the texture path from the given line and loads the texture data using MLX.
+ * 
+ * @param line The line from the configuration file containing the texture path.
+ * @param data The main data structure containing game and rendering data.
+ * @return Returns 0 upon successful execution.
+ */
 int	parse_texture(char *line, t_data *data)
 {
 	int		i;
 	char	*texture_path;
 	int		len;
 
+	// Initialize the index to start of the line
 	i = 0;
+
+	// Skip any leading whitespace characters
 	while (ft_isspace(line[i]))
 		i++;
+
+	// Find the texture path in the line (expected to start with "./")
 	texture_path = ft_strstr(line + i, "./");
+
+	// If a texture path is found
 	if (texture_path)
 	{
+		// Calculate the length of the texture path
 		len = ft_strlen(texture_path);
+
+		// Trim any trailing whitespace from the texture path
 		while (len > 0 && ft_isspace(texture_path[len - 1]))
 			len--;
 		texture_path[len] = '\0';
+
+		// Allocate memory for a new texture structure
+		t_texture *new_texture = malloc(sizeof(t_texture));
+
+		// Load the texture image using MLX and store its data in the new texture structure
+		new_texture->img = mlx_xpm_file_to_image(data->mlx_ptr, texture_path, &new_texture->width, &new_texture->height);
+		new_texture->addr = mlx_get_data_addr(new_texture->img, &new_texture->bpp, &new_texture->line_length, &new_texture->endian);
+
+		// Determine which direction the texture corresponds to and store the texture data in the appropriate field of the data structure
 		if (ft_strstr(line, "NO"))
-			data->north = ft_strdup(texture_path);
+			data->north_tex = *new_texture;
 		else if (ft_strstr(line, "SO"))
-			data->south = ft_strdup(texture_path);
+			data->south_tex = *new_texture;
 		else if (ft_strstr(line, "WE"))
-			data->west = ft_strdup(texture_path);
+			data->west_tex = *new_texture;
 		else if (ft_strstr(line, "EA"))
-			data->east = ft_strdup(texture_path);
+			data->east_tex = *new_texture;
 	}
 	return (0);
 }
+
 
 static int	skip_chars(char *line, int i, char *chars_to_skip)
 {

@@ -78,7 +78,7 @@ int	key_press(int keycode, t_data *data)
 	printf("RENDER DONE\n");
 	mlx_clear_window(data->mlx_ptr, data->win_ptr);
 	printf("WINDOW CLEAR DONE\n");
-	draw_player(data);
+	//draw_player(data);
 	printf("DRAW PLAYER DONE\n");
 	return (0);
 }

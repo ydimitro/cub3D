@@ -41,8 +41,28 @@ void	render(t_data *data)
 		if (top_pixel < 0)
 			return ;
 		if (data->ray.hit)
-			draw_wall_slice(data, x);
+			ray_direction(data);
 		x++;
 	}
 }
 
+
+t_texture *ray_direction(t_data *data)
+{
+	int x;
+	int y;
+
+	x = data->ray.map_x - data->player.x;
+	y = data->ray.map_x - data->player.y;
+
+	//cover 4 condtion 
+	if (x > 0 && y > 0)
+		return (&data->north_tex);
+	else if (x < 0 && y < 0)
+		return (&data->south_tex);
+	else if (x < 0 && y > 0)
+		return (&data->east_tex);
+	else
+		return (&data->west_tex);
+
+}

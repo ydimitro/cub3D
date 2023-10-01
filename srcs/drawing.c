@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 #include "cub3d.h"
 
+//whole file unnecessary - removed from makefile
+
+
 /*
 This function draws a small cross-shaped pattern on the screen at 
 the specified (x, y) coordinates. The pattern is intended to represent 
@@ -72,6 +75,7 @@ void	draw_player(t_data *data)
 	draw_line(data, &line);
 }
 
+
 /*
 Bresenham's line algorithm, a way to draw lines on a grid (like pixels on a screen) 
 without using floating-point arithmetic.
@@ -79,7 +83,10 @@ without using floating-point arithmetic.
 void	draw_line(t_data *data, t_line *line)
 {
 	t_line_params	params;
-	int				e2;
+	int				e2; //temporary variable used for error adjustment.
+	//used to determine when the line should step in the secondary direction 
+	//(either vertically or horizontally) 
+	//to approximate a straight line between two points on a pixel grid.
 	int i = 0;
 
 	calc_deltas_and_steps(line, &params);
@@ -87,6 +94,9 @@ void	draw_line(t_data *data, t_line *line)
 		params.err = params.dx / 2;
 	else
 		params.err = -params.dy / 2;
+	// iterates through each point on the line, drawing it on the screen using mlx_pixel_put.
+	// The error value is adjusted based on the differences in x and y, 
+	// and the current point is moved accordingly.
 	while (line->start_x != line->end_x || line->start_y != line->end_y)
 	{
 		printf("x:%d|y:%d\n", line->start_x, line->start_y);
@@ -108,3 +118,27 @@ void	draw_line(t_data *data, t_line *line)
 		i++;
 	}
 }
+
+/*
+Bresenham's algorithm is designed to draw lines on a pixel grid (like a computer screen) 
+in a way that approximates a straight line between two points. Since pixels are discrete 
+units, the algorithm must decide which pixels to "turn on" to best represent the line.
+
+The algorithm works by keeping track of an error value that represents how far off the 
+line is from the "ideal" line between the two points. As the algorithm progresses from 
+the starting point to the ending point:
+
+If the line is more horizontal, it will always move one pixel in the horizontal direction
+(either left or right).If the accumulated error exceeds a threshold, the algorithm will 
+also move one pixel in the vertical direction (either up or down) and adjust the error 
+value accordingly. The initial error value helps the algorithm make its first decision 
+about when to move vertically. It's set based on the slope of the line:
+
+If the line is more horizontal (params.dx > params.dy), the initial error is set 
+to half of dx. This means the line will first move horizontally until the accumulated 
+error from the slope causes it to move vertically. If the line is more vertical, 
+the initial error is set to negative half of dy. This means the line will first move 
+vertically. As the algorithm progresses, the error value is adjusted based on the actual 
+slope of the line, ensuring that the drawn line stays as close as possible to the ideal 
+line between the two points.
+*/
