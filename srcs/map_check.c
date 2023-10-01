@@ -63,7 +63,7 @@ bool	is_map_closed(t_data *data)
 
 	i = 0;
 	ft_memset(visited, false, sizeof(visited));
-	dfs((int)data->player_x, (int)data->player_y, data, visited);
+	dfs((int)data->player.x, (int)data->player.y, data, visited);
 	while (i < data->map_width)
 	{
 		if (!visited[0][i] || !visited[data->map_height - 1][i])

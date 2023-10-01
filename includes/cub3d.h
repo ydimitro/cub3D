@@ -51,8 +51,6 @@
 # define KEY_A_LOW					97
 # define KEY_S_LOW					115
 # define KEY_D_LOW					100
-# define KEY_UP						126
-# define KEY_DOWN					125
 # define KEY_LEFT					123
 # define KEY_RIGHT					124
 
@@ -151,8 +149,6 @@ typedef struct s_data {
 	int	 		endian;
 
 	t_player	player;
-	float		player_x;
-	float		player_y;
 	float		player_dir;
 
 	t_ray 		ray;
@@ -246,4 +242,6 @@ int		get_elements( char *line, t_data *data);
 int		parse_texture(char *line, t_data *data);
 int		parse_color(char *line, t_data *data);
 
+// debugging to delete after
+void print_2d_array(char **map);
 #endif

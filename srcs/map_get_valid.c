@@ -29,7 +29,7 @@ void add_line_to_game_map(char *line, t_data *data)
 
 int	get_map(char *line, t_data *data)
 {
-	if (data->game_map == NULL && allocate_initial_map(data))
+	if (data->game_map == NULL)
         allocate_initial_map(data);
     add_line_to_game_map(line, data);
 	data->game_map_size++;
@@ -73,10 +73,6 @@ void print2d(char **toPrint)
 int	is_map_valid(t_data *data)
 {
 	bool	visited[MAX_HEIGHT][MAX_WIDTH];
-
-	print2d(data->map);
-	write(1, "\n", 1);
-	print2d(data->game_map); // segfault
 
 	ft_memset(visited, false, sizeof(visited));
 	if (is_map_empty(data))

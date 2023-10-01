@@ -60,22 +60,6 @@ void	dfs(int row, int col, t_data *data,
 	dfs(row, col - 1, data, visited);
 }
 
-int	resize_game_map(t_data *data)
-{
-	char	**temp;
-
-	data->all_file *= 2;
-	temp = (char **)realloc(data->game_map, sizeof(char *) * (data->game_map_size + 1)); // null termination
-	if (!temp)
-	{
-		handle_error(ERR_MAP_ALLOCATION_FAILED);
-		return (1);
-	}
-	temp[data->all_file] = NULL;
-	data->game_map = temp;
-	return (0);
-}
-
 int	allocate_initial_map(t_data *data)
 {
 	data->game_map = (char **)ft_calloc(1, sizeof(char *) * data->all_file);

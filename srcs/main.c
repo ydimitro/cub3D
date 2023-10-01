@@ -60,7 +60,7 @@ int read_and_parse_file(char *filename, t_data *data)
             data->map[data->all_file] = ft_strdup(line);
             data->all_file++;
         }
-        free(line);
+		free(line);
     }
     file_divider(data->all_file, data);
     close(fd);
@@ -87,6 +87,19 @@ void parse_file(char *filename, t_data *data)
     }
 }
 
+void print_2d_array(char **map)
+{
+	int i;
+
+	i = 0;
+	while (map[i])
+	{
+		write(1, map[i], ft_strlen(map[i]));
+		write(1, "\n", 1);
+		i++;
+	}
+}
+
 /*
 1. Check - one arg? .cub?
 2. initializing of data structure
@@ -107,7 +120,7 @@ int	main(int argc, char **argv)
     data_init(data);
     parse_file(argv[1], data);
     is_map_valid(data);
-    mlx_hook(data->win_ptr, 2, 0, &key_press, &data);
+    mlx_hook(data->win_ptr, 2, 0, &key_press, data);
     // Enter the MLX loop to keep the window open
     mlx_loop(data->mlx_ptr);
     return (0);

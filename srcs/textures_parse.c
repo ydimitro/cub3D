@@ -19,7 +19,7 @@ int	get_elements( char *line, t_data *data)
 		parse_texture(line, data);
 	else if (strstr(line, "F") || strstr(line, "C"))
 		parse_color(line, data);
-	else
+	else if (ft_strchr(line, '1'))
 		get_map(line, data);
 	return (0);
 }
