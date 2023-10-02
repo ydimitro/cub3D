@@ -1,103 +1,110 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting_utils.c                                 :+:      :+:    :+:   */
+/*   raycasting2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 11:42:11 by ydimitro          #+#    #+#             */
+/*   Created: 2023/10/02 11:42:32 by ydimitro          #+#    #+#             */
 /*   Updated: 2023/10/02 12:32:08 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+
+/* Here is the short concise pseudocode for the above:
+1. Determine angle of the ray
+2.  Determine quadrant of the ray
+3.  Determine the first intersection point of the ray
+4.  Determine the scaling of the ray
+5.  Determine the next intersection point of the ray
+6.  Determine the distance of the intersection point
+7.  Determine which wall the ray has hit
+8.  Draw the ray 
+*/
+
+
+
 #include "cub3d.h"
 
-void	first_horizontal(t_wall *height, int start_tile_pos_x, int start_tile_pos_y)
+int	check_horizontal_wall(t_wall *height)
 {
-	double	a;
-	int		offsetx;
-	int		offsety;
+	int	wallx;
+	int	wally;
 
-	offsetx = height->pos_cur_x - start_tile_pos_x;
-	if (height->quadrant == 4 || height->quadrant == 3)
-		offsety = start_tile_pos_y + (TILE) - height->pos_cur_y;
+	wallx = (height->current_hor_x - TILE) / (TILE);
+	if (height->quadrant == 3 || height->quadrant == 4)
+		wally = (height->current_hor_y - TILE) / (TILE);
 	else
-		offsety = height->pos_cur_y - start_tile_pos_y;
+		wally = (height->current_hor_y - TILE) / (TILE) - 1;
+	if (wally >= 0 && wally < height->main->height && wallx >= 0 && \
+		wallx < (int)ft_strlen(height->main->map[wally]))
+	{
+		if (height->main->map[wally][wallx] == '1')
+			return (1);
+	}
+	else
+		return (2);
+	return (0);
+}
+
+int	check_vertical_wall(t_wall *height)
+{
+	int	wallx;
+	int	wally;
+
+	if (height->quadrant == 1 || height->quadrant == 4)
+		wallx = (height->current_ver_x - TILE) / (TILE);
+	else
+		wallx = (height->current_ver_x - TILE) / (TILE) - 1;
+	wally = (height->current_ver_y - TILE) / TILE;
+	if (wally >= 0 && wally < height->main->height && \
+		wallx >= 0 && wallx < (int)ft_strlen(height->main->map[wally]))
+	{
+		if (height->main->map[wally][wallx] == '1')
+			return (1);
+	}
+	else
+		return (2);
+	return (0);
+}
+
+void	count_horizontal_scaling(t_wall *height)
+{
+	height->horizontal_x_scaling = fabs(TILE / tan(height->real_angle * RADIAN));
 	if (fabs(remainder(height->angle + height->p_offset, 180)) == 90)
-		a = 10000000;
-	else
-		a = fabs(offsety / tan(height->real_angle * RADIAN));
-	height->current_hor_len = a / cos(height->real_angle * RADIAN);
-	height->current_hor_x = start_tile_pos_x + offsetx + a;
-	if (height->quadrant == 3 || height->quadrant == 4)
-		height->current_hor_y = height->pos_cur_y + offsety;
-	else
-		height->current_hor_y = start_tile_pos_y;
-	if (height->quadrant == 3 || height->quadrant == 2)
-		height->current_hor_x = start_tile_pos_x + offsetx - a;
+		height->horizontal_x_scaling = 10000000;
 }
 
-void	first_vertical(t_wall *height, int start_tile_pos_x, int start_tile_pos_y)
+void	count_vertical_scaling(t_wall *height)
 {
-	double	a;
-	double	b;
-	int		offsety;
-
-	offsety = height->pos_cur_y - start_tile_pos_y;
-	if (height->quadrant == 1 || height->quadrant == 4)
-		a = start_tile_pos_x + (TILE) - height->pos_cur_x;
-	else
-		a = height->pos_cur_x - start_tile_pos_x;
+	height->vertical_y_scaling = fabs(tan(height->real_angle * RADIAN) * TILE);
 	if (fabs(remainder(height->angle + height->p_offset, 180)) == 0)
-		b = 10000000;
-	else
-		b = fabs(a * tan(height->real_angle * RADIAN));
-	height->current_ver_len = b / sin(height->real_angle * RADIAN);
-	height->current_ver_x = start_tile_pos_x;
-	height->current_ver_y = start_tile_pos_y + offsety - b;
-	if (height->quadrant == 1 || height->quadrant == 4)
-		height->current_ver_x = start_tile_pos_x + (TILE);
-	if (height->quadrant == 3 || height->quadrant == 4)
-		height->current_ver_y = start_tile_pos_y + offsety + b;
+		height->vertical_y_scaling = 10000000;
 }
 
-void	positive_angle(t_wall *height, int angle)
+double	calculate_dist_draw(t_wall *height, int hor_hit, int ver_hit)
 {
-	if (angle < 90)
-		height->quadrant = 1;
-	else
+	double	magnitude_horizontal_v;
+	double	magnitude_vertical_v;
+
+	magnitude_horizontal_v = sqrt(fabs(pow(height->current_hor_x - height->pos_cur_x, 2)) + \
+									fabs(pow(height->current_hor_y - height->pos_cur_y, 2)));
+	magnitude_vertical_v = sqrt(fabs(pow(height->current_ver_x - height->pos_cur_x, 2)) + \
+									fabs(pow(height->current_ver_y - height->pos_cur_y, 2)));
+	height->x_ray = false;
+	if (fabs(remainder(height->angle + height->p_offset, 180)) == 90)
+		magnitude_horizontal_v = magnitude_vertical_v + 10;
+	if (fabs(remainder(height->angle + height->p_offset, 180)) == 0)
+		magnitude_vertical_v = magnitude_horizontal_v + 10;
+	if (ver_hit == 2)
+		magnitude_vertical_v = magnitude_horizontal_v + 10;
+	if (hor_hit == 2)
+		magnitude_horizontal_v = magnitude_vertical_v + 10;
+	if (magnitude_horizontal_v < magnitude_vertical_v)
 	{
-		if (angle >= 90 && angle < 180)
-			height->quadrant = 4;
-		else if (angle >= 180 && angle < 270)
-			height->quadrant = 3;
-		else
-			height->quadrant = 2;
+		height->x_ray = true;
+		return (magnitude_horizontal_v);
 	}
-}
-
-void	negative_angle(t_wall *height, int angle)
-{
-	if (angle > -90)
-		height->quadrant = 2;
-	else
-	{
-		if (angle <= -90 && angle > -180)
-			height->quadrant = 3;
-		else if (angle <= -180 && angle > -270)
-			height->quadrant = 4;
-		else
-			height->quadrant = 1;
-	}
-}
-
-void	decide_quadrant(t_wall *height)
-{
-	double	angle;
-
-	angle = fmod(height->angle + height->p_offset, 360);
-	if (height->angle + height->p_offset >= 0)
-		positive_angle(height, angle);
-	else
-		negative_angle(height, angle);
+	return (magnitude_vertical_v);
 }

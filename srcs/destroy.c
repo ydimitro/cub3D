@@ -6,13 +6,16 @@
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:40:55 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 11:40:56 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:03:46 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "cub3d.h"
 
+/*
+Destroying and freeing the memory associated with the wall textures.
+*/
 void	destroy_wall_texures(t_wall *wall)
 {
 	if (wall->wall_tex->texture_east != NULL)
@@ -38,6 +41,9 @@ void	destroy_wall_texures(t_wall *wall)
 	free(wall->wall_tex);
 }
 
+/*
+Freeing the memory associated with the t_wall structure.
+*/
 void	freeing_wall(t_wall *wall)
 {
 	if (wall->b != NULL)
@@ -53,6 +59,10 @@ void	freeing_wall(t_wall *wall)
 	free(wall);
 }
 
+/*
+Cleaning up after parsing, freeing any allocated memory and 
+exiting with a specific error code.
+*/
 void	parsing_cleaning(t_main *main, char *arr, int err)
 {
 	if (arr != NULL)
@@ -68,6 +78,9 @@ int	close_game(t_wall *wall)
 	exit(0);
 }
 
+/*
+Freeing the memory associated with the game and then exiting.
+*/
 void	clear_the_main_struct(t_main *main)
 {
 	int	i;

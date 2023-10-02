@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/02 15:00:43 by ydimitro          #+#    #+#             */
+/*   Updated: 2023/10/02 15:08:52 by ydimitro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -168,7 +179,7 @@ char	*trim_whitespace(char *str);
 int		ft_isspace(int c);
 
 
-//free.c
+//destroy.c
 void	freeing_wall(t_wall *wall);
 void	parsing_cleaning(t_main *main, char *arr, int err);
 int		close_game(t_wall *wall);

@@ -6,7 +6,7 @@
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:40:21 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 13:52:47 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:14:16 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,3 +102,4 @@ void	find_trash(t_main *main, char *s)
 		ft_exiterr(CUB_CONTAINS_TRASH);
 	}
 }
+

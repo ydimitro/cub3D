@@ -6,48 +6,11 @@
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:39:47 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 13:34:26 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:12:50 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int	ft_isspace(int c)
-{
-	if (c == ' ' || c == '\t' || c == '\n'
-		|| c == '\v' || c == '\f' || c == '\r')
-		return (1);
-	return (0);
-}
-
-/*
-Helper function to trim leading and trailing whitespaces.
-*/
-char *trim_whitespace(char *str)
-{
-    char *start;
-    char *end;
-    int i;
-	int	j;
-
-    while (*str && (char)ft_isspace(*str))
-        str++;
-    start = str;
-    end = start + ft_strlen(start) - 1;
-    while (end > start && ft_isspace(*end))
-        end--;
-    *(end + 1) = '\0';
-    i = 0;
-	j = 0;
-    while (start[i])
-    {
-        if (!ft_isspace(start[i]) || (i > 0 && !ft_isspace(start[i - 1])))
-            start[j++] = start[i];
-        i++;
-    }
-    start[j] = '\0';
-    return ft_strdup(start);
-}
 
 /*
 Validating whether the provided values represent valid RGB color components
