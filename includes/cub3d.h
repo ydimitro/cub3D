@@ -6,7 +6,7 @@
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:00:43 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 18:48:06 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 19:03:10 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,40 +64,40 @@
 # define RADIAN 0.0174532925
 
 //Keys
-#  define LEFT_KEY	124
-#  define RIGHT_KEY	123
-#  define W_KEY		13
-#  define S_KEY		1
-#  define D_KEY		2
-#  define A_KEY		0
-#  define ESC_KEY	53
+# define LEFT_KEY	124
+# define RIGHT_KEY	123
+# define W_KEY		13
+# define S_KEY		1
+# define D_KEY		2
+# define A_KEY		0
+# define ESC_KEY	53
 
 //Tile size
 # define TILE	32
 
 //Textures and colors
- # define D_NO "./textures/north.xpm"
- # define D_EA "./textures/east.xpm"
- # define D_SO "./textures/south.xpm"
- # define D_WE "./textures/west.xpm"
+# define D_NO "./textures/north.xpm"
+# define D_EA "./textures/east.xpm"
+# define D_SO "./textures/south.xpm"
+# define D_WE "./textures/west.xpm"
 # define D_F 0xDC6400
 # define D_C 0xE11E00
 
 //wall_collisions norminette
-typedef enum {
-    DIRECTION_W,
-    DIRECTION_S,
-    DIRECTION_A,
-    DIRECTION_D
-} t_direction;
+typedef enum s_direction{
+	DIRECTION_W,
+	DIRECTION_S,
+	DIRECTION_A,
+	DIRECTION_D
+}	t_direction;
 
 //wall_collisions norminette
-typedef struct {
-    int corner1;
-    int corner2;
-    int center1;
-    int center2;
-} t_collision_data;
+typedef struct s_collision_data{
+	int	corner1;
+	int	corner2;
+	int	center1;
+	int	center2;
+}	t_collision_data;
 
 typedef struct s_vars {
 	void	*mlx;
@@ -199,23 +199,23 @@ typedef struct s_wall
 }				t_wall;
 
 //colors.c
-void	free_color_array(char **c);
-void	take_care_of_color(char *buffer, t_main *m, char id);
+void		free_color_array(char **c);
+void		take_care_of_color(char *buffer, t_main *m, char id);
 
 //destroy.c
-void	destroy_wall_texures(t_wall *wall);
-void	freeing_wall(t_wall *wall);
-void	parsing_cleaning(t_main *main, char *arr, int err);
-int		close_game(t_wall *wall);
-void	clear_the_main_struct(t_main *main);
+void		destroy_wall_texures(t_wall *wall);
+void		freeing_wall(t_wall *wall);
+void		parsing_cleaning(t_main *main, char *arr, int err);
+int			close_game(t_wall *wall);
+void		clear_the_main_struct(t_main *main);
 
 //draw_line_utils.c
-void	pixel_placement_decider(t_wall *height, int x, int color);
-void	draw_low_slope(t_wall *height, int color);
-void	draw_high_slope(t_wall *height, int color);
+void		pixel_placement_decider(t_wall *height, int x, int color);
+void		draw_low_slope(t_wall *height, int color);
+void		draw_high_slope(t_wall *height, int color);
 
 //draw_line.c
-void	draw_line(t_wall *height, int color);
+void		draw_line(t_wall *height, int color);
 
 //draw3d.c
 int			my_mlx_pixel_get(t_wall *height, t_texture *texture, int x, int y);
@@ -225,103 +225,105 @@ void		draw_vertical_line(t_wall *height, double temp_line_h);
 void		draw_3d(t_wall *height, int a, double fov);
 
 //error_utils.c
-bool	map_fragment_found(char *buffer);
-bool	match_component_name(char *name);
-bool	component_found(char *str);
-void	find_trash(t_main *main, char *s);
+bool		map_fragment_found(char *buffer);
+bool		match_component_name(char *name);
+bool		component_found(char *str);
+void		find_trash(t_main *main, char *s);
 
 //errors.c
-int		first_error_messages(int err);
-void	ft_exiterr(int err);
-void	check_basic_errors(t_main *main, int argc, char **argv);
+int			first_error_messages(int err);
+void		ft_exiterr(int err);
+void		check_basic_errors(t_main *main, int argc, char **argv);
 
 //init.c
-void	initialize_main(t_main *main);
-void	calloc_struct(t_wall *wall);
-void	initialize_wall(t_wall *wall, t_main *main);
-void	initialize_mlx(t_data *img, t_vars *vars);
+void		initialize_main(t_main *main);
+void		calloc_struct(t_wall *wall);
+void		initialize_wall(t_wall *wall, t_main *main);
+void		initialize_mlx(t_data *img, t_vars *vars);
 
 //main.c
-void	move_player(t_wall *wall, int indentifier);
-int		key_hook(int keycode, t_wall *wall);
-int		render(t_wall *height);
-void	hooks_n_loops(t_wall *wall);
+void		move_player(t_wall *wall, int indentifier);
+int			key_hook(int keycode, t_wall *wall);
+int			render(t_wall *height);
+void		hooks_n_loops(t_wall *wall);
 
 //parse_map_utils.c
-void	save_map(t_main *main, char **argv, int len);
-bool	check_for_map_start(char *buffer, t_main *main);
-int		map_skip_space(int i, char *b, char id);
-int		check_map_fragments(t_main *main, char *b, int *c);
+void		save_map(t_main *main, char **argv, int len);
+bool		check_for_map_start(char *buffer, t_main *main);
+int			map_skip_space(int i, char *b, char id);
+int			check_map_fragments(t_main *main, char *b, int *c);
 
 //parsing_map.c
-int		check_right(t_main *main, int x, int y, int x_r);
-int		check_middle(t_main *main, int x, int y);
-int		check_left(t_main *main, int x, int y, int x_l);
-void	check_spaces(t_main *main, int x, int y);
+int			check_right(t_main *main, int x, int y, int x_r);
+int			check_middle(t_main *main, int x, int y);
+int			check_left(t_main *main, int x, int y, int x_l);
+void		check_spaces(t_main *main, int x, int y);
 
 //parsing_utils.c
-bool	match(char *searched, char *str);
-void	open_the_file(t_main *main, char **argv);
-void	check_file_extension(char *filename);
+bool		match(char *searched, char *str);
+void		open_the_file(t_main *main, char **argv);
+void		check_file_extension(char *filename);
 
 //parsing.c
-void	check_for_elements(char *buffer, t_main *main);
-void	find_elements(t_main *main);
-void	parsing(t_main *main, char **argv);
+void		check_for_elements(char *buffer, t_main *main);
+void		find_elements(t_main *main);
+void		parsing(t_main *main, char **argv);
 
 //player.c
-void	check_player_direction(t_main *main);
-void	initialize_rectangle(t_wall *height);
-void	player_rotation(t_wall *height, int offset);
-void	draw_player(t_wall *height);
-void	player_center_rotation(t_wall *height, double tmp_x, double c, double s);
+void		check_player_direction(t_main *main);
+void		initialize_rectangle(t_wall *height);
+void		player_rotation(t_wall *height, int offset);
+void		draw_player(t_wall *height);
+void		player_center_rotation(t_wall *height, \
+	double tmp_x, double c, double s);
 
 //raycasing_init.c
-void	first_horizontal(t_wall *height, \
+void		first_horizontal(t_wall *height, \
 	int start_tile_pos_x, int start_tile_pos_y);
-void	first_vertical(t_wall *height, \
+void		first_vertical(t_wall *height, \
 	int start_tile_pos_x, int start_tile_pos_y);
-void	positive_angle(t_wall *height, int angle);
-void	negative_angle(t_wall *height, int angle);
-void	decide_quadrant(t_wall *height);
+void		positive_angle(t_wall *height, int angle);
+void		negative_angle(t_wall *height, int angle);
+void		decide_quadrant(t_wall *height);
 
 //raycasting_utils.c
-int		check_horizontal_wall(t_wall *height);
-int		check_vertical_wall(t_wall *height);
-void	count_horizontal_scaling(t_wall *height);
-void	count_vertical_scaling(t_wall *height);
-double	calculate_dist_draw(t_wall *height, int hor_hit, int ver_hit);
+int			check_horizontal_wall(t_wall *height);
+int			check_vertical_wall(t_wall *height);
+void		count_horizontal_scaling(t_wall *height);
+void		count_vertical_scaling(t_wall *height);
+double		calculate_dist_draw(t_wall *height, int hor_hit, int ver_hit);
 
 //raycasting.c
-void	rest_horizontal(t_wall *height, int start_tile_pos_y, int step);
-void	rest_vertical(t_wall *height, int start_tile_pos_x, int step);
-void	raycasting(t_wall *height, int start_tile_pos_x, int start_tile_pos_y);
-void	draw_2d_rays(t_wall *height);
+void		rest_horizontal(t_wall *height, int start_tile_pos_y, int step);
+void		rest_vertical(t_wall *height, int start_tile_pos_x, int step);
+void		raycasting(t_wall *height, int start_tile_pos_x, \
+	int start_tile_pos_y);
+void		draw_2d_rays(t_wall *height);
 
 //texture_handling.c
-void	load_texure(t_texture *t, t_wall *height, char *t_path);
-char	*prepare_element_path(char *str);
-void	free_splitted(char **split, char *element_name);
-char	*save_element(t_main *main, char *buffer);
-void	take_care_of_texure(char *buffer, t_main *main, char name);
+void		load_texure(t_texture *t, t_wall *height, char *t_path);
+char		*prepare_element_path(char *str);
+void		free_splitted(char **split, char *element_name);
+char		*save_element(t_main *main, char *buffer);
+void		take_care_of_texure(char *buffer, t_main *main, char name);
 
 //utils.c
-void	position_offset(t_main *main, t_wall *wall);
-int		check_wall(t_wall *height, int x_future, int y_future);
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-void	load_assets(t_wall *height);
-int		ft_isspace(int c);
-char	*trim_whitespace(char *str);
+void		position_offset(t_main *main, t_wall *wall);
+int			check_wall(t_wall *height, int x_future, int y_future);
+void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void		load_assets(t_wall *height);
+int			ft_isspace(int c);
+char		*trim_whitespace(char *str);
 
 //wall_collision_utils.c
-int check_center_and_corners(t_wall *height, t_collision_data *data);
-int	check_position(t_wall *height);
+int			check_center_and_corners(t_wall *height, t_collision_data *data);
+int			check_position(t_wall *height);
 
 //wall_collision.c
-int		wall_colision_a(t_wall *height, int check_wall_colision);
-int		wall_colision_s(t_wall *height, int check_wall_colision);
-int		wall_colision_w(t_wall *height, int check_wall_colision);
-int		wall_colision_d(t_wall *height, int check_wall_colision);
-int		wall_colision_check(t_wall *height, int keycode);
+int			wall_colision_a(t_wall *height, int check_wall_colision);
+int			wall_colision_s(t_wall *height, int check_wall_colision);
+int			wall_colision_w(t_wall *height, int check_wall_colision);
+int			wall_colision_d(t_wall *height, int check_wall_colision);
+int			wall_colision_check(t_wall *height, int keycode);
 
 #endif
