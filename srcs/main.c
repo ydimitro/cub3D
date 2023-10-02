@@ -3,133 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/08 03:33:11 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/27 18:42:45 by tgomes-l         ###   ########.fr       */
+/*   Created: 2023/10/02 11:41:16 by ydimitro          #+#    #+#             */
+/*   Updated: 2023/10/02 11:41:18 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "cub3d.h"
 
-/*
-This function iterates over each row of the map stored in the data structure.
-For each row, it retrieves the corresponding line of the map and calls
-the get_elements function with this line and the data structure.
-The get_elements function parses the line to extract relevant information
-about the map (e.g., wall positions, player start position, etc.).
-The function always returns 0.
-*/
-int file_divider(int row, t_data *data)
+void	move_player(t_wall *wall, int indentifier)
 {
-    int i = 0;
-    char *line;
-
-    while (i < row)
-    {
-        line = data->map[i];
-        get_elements(line, data);
-        i++;
-    }
-    return(0);
-}
-
-/*
-This function opens the file specified by filename for reading.
-It then reads each line of the file using the get_next_line function
-and stores up to MAP_MAX_SIZE lines in the data structure.
-The function also counts the number of lines read and stores this count
-in data->all_file. After reading all lines, it calls file_divider
-to process the map. If the file cannot be opened, it prints an error
-message and returns -1. Otherwise, it returns 0.
-*/
-int read_and_parse_file(char *filename, t_data *data)
-{
-    int fd;
-    char *line;
-
-    fd = open(filename, O_RDONLY);
-    if (fd == -1)
-    {
-        perror("open");
-        return (-1);
-    }
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        if (data->all_file < MAP_MAX_SIZE)
-        {
-            data->map[data->all_file] = ft_strdup(line);
-            data->all_file++;
-        }
-		free(line);
-    }
-    file_divider(data->all_file, data);
-    close(fd);
-    return (0);
-}
-
-void check_file_ending(char *filename)
-{
-    char	*dot;
-
-    dot = ft_strrchr(filename, '.');
-    if (dot == NULL || ft_strcmp(dot, ".cub") != 0)
-    {
-        handle_error(ERR_INVALID_EXT);
-    }
-}
-
-void parse_file(char *filename, t_data *data)
-{
-    if (read_and_parse_file(filename, data) == -1)
-    {
-        free_mem(data);     //might cause freeing error
-        handle_error(ERR_READ_FILE);
-    }
-}
-
-void print_2d_array(char **map)
-{
-	int i;
-
-	i = 0;
-	while (map[i])
+	if (indentifier == W_KEY)
 	{
-		write(1, map[i], ft_strlen(map[i]));
-		write(1, "\n", 1);
-		i++;
+		wall->pos_cur_x = wall->p_m[0];
+		wall->pos_cur_y = wall->p_m[1];
+	}
+	if (indentifier == S_KEY)
+	{
+		wall->pos_cur_x = wall->p_m[6];
+		wall->pos_cur_y = wall->p_m[7];
+	}
+	if (indentifier == A_KEY)
+	{
+		wall->pos_cur_x = wall->p_m[4];
+		wall->pos_cur_y = wall->p_m[5];
+	}
+	if (indentifier == D_KEY)
+	{
+		wall->pos_cur_x = wall->p_m[2];
+		wall->pos_cur_y = wall->p_m[3];
 	}
 }
 
-/*
-1. Check - one arg? .cub?
-2. initializing of data structure
-3. Call read_and_parse_file to read and process the map file, -1 (error, free)
-4. Set screen width and height
-5. MLX init, create window, key press event handler, MLX loop during play
-*/
+int	key_hook(int keycode, t_wall *wall)
+{
+	if (keycode == ESC_KEY)
+		close_game(wall);
+	if (keycode == LEFT_KEY)
+		wall->angle += 5;
+	else if (keycode == RIGHT_KEY)
+		wall->angle -= 5;
+	else
+	{
+		if (wall_colision_check(wall, keycode) == 0)
+			move_player(wall, keycode);
+	}
+	return (0);
+}
+
+int	render(t_wall *height)
+{
+	height->data->img = mlx_new_image(height->vars->mlx, S_WIDTH, S_HEIGHT);
+	height->data->addr = mlx_get_data_addr(height->data->img, &height->data->bits_per_pixel, \
+	&height->data->line_length, &height->data->endian);
+	draw_player(height);
+	draw_2d_rays(height);
+	mlx_put_image_to_window(height->vars->mlx, height->vars->win, height->data->img, 0, 0);
+	mlx_destroy_image(height->vars->mlx, height->data->img);
+	return (0);
+}
+
+void hooks_n_loops(t_wall *wall)
+{
+	wall->pos_cur_x = TILE + (wall->main->p_x * (TILE)) + ((TILE) / 2);
+	wall->pos_cur_y = TILE + (wall->main->p_y * (TILE)) + ((TILE) / 2);
+	mlx_hook(wall->vars->win, 2, (1L) << 0, &key_hook, wall);
+	mlx_hook(wall->vars->win, 17, 0L, close_game, wall);
+	mlx_loop_hook(wall->vars->mlx, &render, wall);
+	mlx_loop(wall->vars->mlx);
+}
+
 int	main(int argc, char **argv)
 {
-    t_data	*data;
+	t_wall	*wall;
+	t_main	*main;
 
-    if (argc != 2)
-    {
-        handle_error(ERR_INVALID_ARGC);
-    }
-    check_file_ending(argv[1]);
-    data = create_data();
-    data_init(data);
-    parse_file(argv[1], data);
-	printf("4x:%f | y: %f\n", data->player.x, data->player.y);
-    is_map_valid(data);
-    //call co rendering 
-    mlx_hook(data->win_ptr, 2, 0, &key_press, data);
-
-
-  
-    // Enter the MLX loop to keep the window open
-	printf("5x:%f | y: %f\n", data->player.x, data->player.y);
-	printf("before\n");
-    mlx_loop(data->mlx_ptr);
-    
-    return (0);
+	wall = NULL;
+	wall = ft_calloc(sizeof(t_wall), 1);
+	main = ft_calloc(sizeof(t_main), 1);
+	initialize_main(main);
+	initialize_wall(wall, main);
+	check_basic_errors(main, argc, argv);
+	parsing(main, argv);
+	position_offset(main, wall);
+	initialize_mlx(wall->data, wall->vars);
+	load_assets(wall);
+	hooks_n_loops(wall);
+	return (0);
 }

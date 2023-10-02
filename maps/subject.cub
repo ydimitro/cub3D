@@ -1,10 +1,11 @@
-NO ./resourses/bricks.xpm
-SO ./resourses/hello_world.xpm
-WE ./resourses/blocks.xpm
-EA ./resourses/pixil.xpm
+NO ./textures/north.xpm
+SO ./textures/south.xpm
+WE ./textures/west.xpm
+EA ./textures/east.xpm
 
-C 99, 0, 128
-F 205, 192, 203
+F 119,110,101
+C 255,0,125
+
 
 
         1111111111111111111111111  

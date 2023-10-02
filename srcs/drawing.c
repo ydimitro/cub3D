@@ -3,142 +3,149 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ydimitro <ydimitro@students.42wolfsburg.de +#+  +:+       +#+        */
+/*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/10 07:50:06 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/09/17 07:50:06 by ydimitro         ###   ########.fr       */
+/*   Created: 2023/10/02 11:06:21 by ydimitro          #+#    #+#             */
+/*   Updated: 2023/10/02 12:32:08 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "cub3d.h"
 
-//whole file unnecessary - removed from makefile
-
-
 /*
-This function draws a small cross-shaped pattern on the screen at 
-the specified (x, y) coordinates. The pattern is intended to represent 
-a circle or point on the screen.
-*/
-void	draw_circle(t_data *data, int x, int y)
-{
-	int	color;
+determining the placement of pixels on the screen using Brezenham algo
+for drawing straight lines on a grid without using floating-point arithmetic.
 
-	color = 0xFFFFFF;
-	mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, color);
-	mlx_pixel_put(data->mlx_ptr, data->win_ptr, x + 1, y, color);
-	mlx_pixel_put(data->mlx_ptr, data->win_ptr, x - 1, y, color);
-	mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y + 1, color);
-	mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y - 1, color);
-}
+x: 		determines the direction of pixel placement (1 = y || vertical plane)
+color:	color of the pixel to be placed
 
-/*
-sets the endpoint for a line representing the player's direction.
-Should be called before any rendering or drawing.
-*20 = how far out the endpoint of the line (player's dir) should be from
-its starting point. With factor 20 the line is better visible
+The algorithm determines the points that need to be highlighted 
+to represent a line between two given points. The decision_v variable
+helps decide whether the next point should be above or below the 
+current point, and the direction variable indicates the direction of 
+the line. The delta_x and delta_y variables represent the change in x and 
+y coordinates, respectively.
 */
-void	set_line_endpoints(t_data *data, t_line *line)
+void	pixel_placement_decider(t_wall *height, int x, int color)
 {
-	//horizontal ray
-	printf("side:%d\n", data->ray.side);
-	if (data->ray.side == 0)
+	if (x == 1)
 	{
-		if (data->ray.dir_x > 0)
-			line->end_x = (int)(line->start_x + cos(data->player.dir) * 20);
+		my_mlx_pixel_put(height->data, height->line[0], height->line[1], color);
+		if (height->b->decision_v < 0)
+			height->b->decision_v = height->b->decision_v + (2 * height->b->delta_y);
 		else
-			line->end_x = (int)(line->start_x - cos(data->player.dir) * 20);
+		{
+			height->b->decision_v = height->b->decision_v + (2 * height->b->delta_y) \
+					- (2 * height->b->delta_x);
+			height->line[1] = height->line[1] + height->b->direction;
+		}
 	}
-	//vertical ray
-	if (data->ray.side == 1)
-	{
-		if (data->ray.dir_y > 0)
-			line->end_y = (int)(line->start_y + sin(data->player.dir) * 20);
-		else
-			line->end_y = (int)(line->start_y - sin(data->player.dir) * 20);
-	}
-}
-
-/*
-the player is represented by a circle and a line. 
-*/
-void	draw_player(t_data *data)
-{
-	t_line line;
-
-	line.end_x = 0;
-	line.end_y = 0;
-	line.start_x = (int)(data->player.x * 10);
-	line.start_y = (int)(data->player.y * 10);
-	set_line_endpoints(data, &line);
-	draw_circle(data, line.start_x, line.start_y);
-	printf("end_x: %d | end_y: %d\n", line.end_x, line.end_y);
-	draw_line(data, &line);
-}
-
-
-/*
-Bresenham's line algorithm, a way to draw lines on a grid (like pixels on a screen) 
-without using floating-point arithmetic.
-*/
-void	draw_line(t_data *data, t_line *line)
-{
-	t_line_params	params;
-	int				e2; //temporary variable used for error adjustment.
-	//used to determine when the line should step in the secondary direction 
-	//(either vertically or horizontally) 
-	//to approximate a straight line between two points on a pixel grid.
-	int i = 0;
-
-	calc_deltas_and_steps(line, &params);
-	if (params.dx > params.dy)
-		params.err = params.dx / 2;
 	else
-		params.err = -params.dy / 2;
-	// iterates through each point on the line, drawing it on the screen using mlx_pixel_put.
-	// The error value is adjusted based on the differences in x and y, 
-	// and the current point is moved accordingly.
-	while (line->start_x != line->end_x || line->start_y != line->end_y)
 	{
-		printf("x:%d|y:%d\n", line->start_x, line->start_y);
-		mlx_pixel_put(data->mlx_ptr, data->win_ptr,
-			line->start_x, line->start_y, 0xFFFFFF);
-		e2 = params.err;
-		if (e2 > -params.dy)
+		my_mlx_pixel_put(height->data, height->line[0], height->line[1], color);
+		if (height->b->decision_v < 0)
+			height->b->decision_v = height->b->decision_v + (2 * height->b->delta_x);
+		else
 		{
-			params.err -= params.dy;
-			line->start_x += params.sx;
+			height->b->decision_v = height->b->decision_v + (2 * height->b->delta_x) \
+													- (2 * height->b->delta_y);
+			height->line[0] = height->line[0] + height->b->direction;
 		}
-		if (e2 < params.dx)
-		{
-			params.err += params.dx;
-			line->start_y += params.sy;
-		}
-		if (i == 500)
-			exit(1);
-		i++;
 	}
 }
 
 /*
-Bresenham's algorithm is designed to draw lines on a pixel grid (like a computer screen) 
-in a way that approximates a straight line between two points. Since pixels are discrete 
-units, the algorithm must decide which pixels to "turn on" to best represent the line.
+draw lines on the screen that have a slope between -1 and 1
 
-The algorithm works by keeping track of an error value that represents how far off the 
-line is from the "ideal" line between the two points. As the algorithm progresses from 
-the starting point to the ending point:
-
-If the line is more horizontal, it will always move one pixel in the horizontal direction
-(either left or right).If the accumulated error exceeds a threshold, the algorithm will 
-also move one pixel in the vertical direction (either up or down) and adjust the error 
-value accordingly. The initial error value helps the algorithm make its first decision 
-about when to move vertically. It's set based on the slope of the line:
-
-If the line is more horizontal (params.dx > params.dy), the initial error is set 
-to half of dx. This means the line will first move horizontally until the accumulated 
-error from the slope causes it to move vertically. If the line is more vertical, 
-the initial error is set to negative half of dy. This means the line will first move 
-vertically. As the algorithm progresses, the error value is adjusted based on the actual 
-slope of the line, ensuring that the drawn line stays as close as possible to the ideal 
-line between the two points.
+Set the direction of the line to be positive (going right).
+Calculate the change in x and y coordinates for the line.
+If the change in y is negative (meaning the line is going upwards),
+make the change in y positive and set the direction to be negative (going left).
+Initialize the decision variable for the Bresenham's algorithm.
+Draw the line from the starting x-coordinate to the ending x-coordinate with while loop.
 */
+static void	draw_low_slope(t_wall *height, int color)
+{
+	height->b->direction = 1;
+	height->b->delta_x = height->line[2] - height->line[0];
+	height->b->delta_y = height->line[3] - height->line[1];
+	if (height->b->delta_y < 0)
+	{
+		height->b->delta_y = -1 * height->b->delta_y;
+		height->b->direction = -1;
+	}
+	height->b->decision_v = (2 * height->b->delta_y) - height->b->delta_x;
+	while (height->line[0] <= height->line[2])
+	{
+		pixel_placement_decider(height, 1, color);
+		height->line[0]++;
+	}
+}
+
+/*
+draw lines on the screen that have a slope between -1 and 1
+Same logic for the other plane.
+*/
+static void	draw_high_slope(t_wall *height, int color)
+{
+	height->b->direction = 1;
+	height->b->delta_x = height->line[2] - height->line[0];
+	height->b->delta_y = height->line[3] - height->line[1];
+	if (height->b->delta_x < 0)
+	{
+		height->b->delta_x = -1 * height->b->delta_x;
+		height->b->direction = -1;
+	}
+	height->b->decision_v = (2 * height->b->delta_x) - height->b->delta_y;
+	while (height->line[1] <= height->line[3])
+	{
+		pixel_placement_decider(height, 0, color);
+		height->line[1]++;
+	}
+}
+
+/*
+Swapping the starting and ending coordinates of a line segment
+to ensure that a line is always drawn from a specific starting/ending point.
+*/
+static void	rotate(t_wall *height)
+{
+	int	temp_x;
+	int	temp_y;
+
+	temp_x = height->line[0];
+	temp_y = height->line[1];
+	height->line[0] = height->line[2];
+	height->line[2] = temp_x;
+	height->line[1] = height->line[3];
+	height->line[3] = temp_y;
+}
+
+
+/*
+Drawing a line segment on the screen based on its slope.
+*/
+void	draw_line(t_wall *height, int color)
+{
+	if (fabs((double)height->line[3] - (double)height->line[1]) <= \
+						fabs((double)height->line[2] - (double)height->line[0]))
+	{
+		if (height->line[0] > height->line[2])
+		{
+			rotate(height);
+			draw_low_slope(height, color);
+		}
+		else
+			draw_low_slope(height, color);
+	}
+	else
+	{
+		if (height->line[1] > height->line[3])
+		{
+			rotate(height);
+			draw_high_slope(height, color);
+		}
+		else
+			draw_high_slope(height, color);
+	}
+}

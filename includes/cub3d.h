@@ -1,250 +1,282 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tgomes-l <tgomes-l@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/08 11:31:10 by tgomes-l          #+#    #+#             */
-/*   Updated: 2023/09/27 19:16:40 by tgomes-l         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <stdio.h>
-# include <fcntl.h> 
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
+//Headers
 # include <stdbool.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <limits.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
 # include <math.h>
 # include "../libft/includes/libft.h"
 # include "../minilibx_opengl/mlx.h"
+//# include "../minilibx-linux/mlx.h"
 
-# define MAP_MAX_SIZE				1024
-# define MAX_HEIGHT					1000
-# define MAX_WIDTH					1000
-# define MAX_MAP_LINES				100
-# define SUCCESS					0
-# define ERR_MULTIPLE_START			1
-# define ERR_NO_START				2
-# define ERR_INVALID_ARGC			3
-# define ERR_INVALID_EXT			4
-# define ERR_READ_FILE				5
-# define ERR_PLAYER_NR				6
-# define ERR_MAP_ALLOCATION_FAILED	7
-# define ERR_TEXTURE_LOAD_FAILED	8
-# define ERR_EMPTY_MAP				9
-# define SCREEN_WIDTH				800
-# define FOV						60
-# define MOVE_SPEED					1
-# define ROT_SPEED					60
-# define KEY_ESC					53
-# define KEY_Q						12
-# define KEY_W						13
-# define KEY_A						0
-# define KEY_S						1
-# define KEY_D						2
-# define KEY_W_LOW					119
-# define KEY_A_LOW					97
-# define KEY_S_LOW					115
-# define KEY_D_LOW					100
-# define KEY_LEFT					123
-# define KEY_RIGHT					124
-
-typedef struct s_ray
-{
-	double		dir_x;
-	double		dir_y;
-	int			side;
-	int			map_x;
-	int			map_y;
-	double		side_dist_x;
-	double		side_dist_y;
-	double		delta_dist_x;
-	double		delta_dist_y;
-	double		perp_wall_dist;
-	int			step_x;
-	int			step_y;
-	int			hit;
-}	t_ray;
-
-typedef struct s_texture_calc
-{
-    double 		wall_x;
-    double 		draw_start;
-    double 		tex_pos;
-    int 		tex_x;
-	int 		tex_y;
-    int 		color;
-} t_texture_calc;
+typedef struct s_vars {
+	void	*mlx;
+	void	*win;
+}				t_vars;
 
 typedef struct s_texture
 {
-	void 		*img;
-	char		*addr;
-	int 		width;
-	int 		height;
-	int 		bpp;
-	int	 		line_length;
-	int	 		endian;
-	int 		sl;
-	int 		end;
-	int 		*data;
-}	t_texture;
+	void	*img;
+	char	*data;
+	int		size_line;
+	int		bpp;
+	int		endian;
+	int		width;
+	int		height;
+}				t_texture;
 
-typedef struct s_player
+typedef struct s_wall_texures
 {
-	double 		x;
-	double 		y;
-	double 		dir;
-	double 		dir_x;
-	double 		dir_y;
-	double 		speed;
-	double 		turn_speed;
-}	t_player;
-
-typedef struct s_line_params
-{
-    int 		dx;
-    int 		dy;
-    int 		sx;
-    int 		sy;
-    int 		err;
-}               t_line_params;
-
-typedef struct	s_line
-{
-	int			start_x;
-	int			start_y;
-	int			end_x;
-	int			end_y;
-}				t_line;
+	t_texture	*texture_north;
+	t_texture	*texture_south;
+	t_texture	*texture_west;
+	t_texture	*texture_east;
+}				t_wall_tex;
 
 typedef struct s_data {
-	char		**map;
-	char 		**game_map;
-	int 		game_map_size;
-	size_t 		game_map_capacity;
-	int 		in_map_section;
-	int			all_file; // number of rows
-	int			map_width;
-	int			map_height;
-	char		*north;
-	char		*south;
-	char		*west;
-	char		*east;
-	int			ceiling_color[3];
-    int			floor_color[3];
-	double 		tile_size;
+	void	*img;
+	char	*addr;
+	int		height;
+	int		width;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_data;
 
-	void		*mlx_ptr;
-	void		*win_ptr;
-	void		*img_ptr;
-	void		*img_adr;
-	char		*img_data;
-	int	 		bits_per_pixel;
-	int	 		size_line;
-	int	 		endian;
+typedef struct s_main
+{
+	int		file_fd;
+	char	p_dir;
+	char	p_pos_x;
+	char	p_pos_y;
+	int		p_x;
+	int		p_y;
+	char	*north_t;
+	char	*south_t;
+	char	*west_t;
+	char	*east_t;
+	char	**map;
+	int		height;
+	int		floor;
+	int		ceiling;
+	int		h_hit;
+	int		v_hit;
+}				t_main;
 
-	t_player	player;
-	float		player_dir;
+typedef struct s_brezenham
+{
+	int		decision_v;
+	int		direction;
+	int		delta_x;
+	int		delta_y;
+}				t_brez;
 
-	t_ray 		ray;
-	int 		screen_width;
-	int 		screen_height;
-	t_texture 	wall_texture;
+typedef struct s_wall
+{
+	t_main		*main;
+	t_data		*data;
+	t_vars		*vars;
+	t_brez		*b;
+	t_wall_tex	*wall_tex;
+	int			line[4];
+	int			pos_cur_x;
+	int			pos_cur_y;
+	int			current_tile_pos_x;
+	int			current_tile_pos_y;
+	double		angle;
+	int			p_c[8];
+	int			p_m[8];
+	int			p_offset;
+	int			move;
+	double		f_int_x;
+	double		f_int_y;
+	double		current_hor_len;
+	double		current_ver_len;
+	double		current_hor_x;
+	double		current_hor_y;
+	double		current_ver_x;
+	double		current_ver_y;
+	bool		x_ray;
+	double		horizontal_x_scaling;
+	double		vertical_y_scaling;
+	int			quadrant;
+	double		real_angle;
+	double		shortest_dist_to_wall;
+	double		one_colum_increase;
+	double		p_dist_from_projection_plane;
+	double		tex_to_tile_ratio_x;
+	double		tex_to_line_h_ratio_y;
+}				t_wall;
 
-	t_texture 	north_tex;
-	t_texture 	south_tex;
-	t_texture 	east_tex;
-	t_texture 	west_tex;
-	double		DIST_TO_PROJ_PLANE;
-}	t_data;
+//	============>  parsing	<============
 
-//create.c
-t_data *create_data();
+//checking_map.c
+int		check_right(t_main *main, int x, int y, int x_r);
+int		check_middle(t_main *main, int x, int y);
+int		check_left(t_main *main, int x, int y, int x_l);
+void	check_spaces(t_main *main, int x, int y);
 
-//destroy.c
-void	cleanup_texture(t_data *data);
-int		free_mem(t_data *data);
-void	destroy_2d_array(char **data_map);
-void	destroy_data(t_data *data);
+//errors_utils.c
+bool	map_fragment_found(char *buffer);
+bool	match_component_name(char *name);
+bool	component_found(char *str);
+void	find_trash(t_main *main, char *s);
 
-//direction.c
-int		set_player_start(t_data *data, char orientation, int x, int y);
+//errors.c
+void	ft_exiterr(int err);
+void	check_basic_errors(t_main *main, int argc, char **argv);
 
-//drawing_utils_2.c
-int		custom_abs(int x);
-void	calc_line_dir(t_data *data, t_line *line);
-void	calc_wall_x(t_data *data, t_texture_calc *texture_calc);
-void	calc_deltas_and_steps(t_line *line, t_line_params *params);
-int		get_wall_color(t_data *data);
+//errors.c
+void	check_file_extension(char *filename);
 
-//drawing_utils_texture.c
-void	set_texture(t_data *data, t_texture **texture);
-void	calc_texture_pos(t_data *data, t_texture_calc *texture_calc);
-void	initialize_texture_variables(t_data *data, t_texture_calc *texture_calc);
-void	draw_textured_walls(t_data *data, int x, t_texture *texture);
-void	draw_wall_slice(t_data *data, int x);
-void    my_mlx_pixel_put(t_data *data, int x, int y, int color);
+//map.c
+void	save_map(t_main *main, char **argv, int len);
+bool	check_for_map_start(char *buffer, t_main *main);
+int		map_skip_space(int i, char *b, char id);
+int		check_map_fragments(t_main *main, char *b, int *c);
 
-//drawing.c
-void	draw_circle(t_data *data, int x, int y);
-void	set_line_endpoints(t_data *data, t_line *line);
-void	draw_player(t_data *data);
-void	draw_line(t_data *data, t_line *line);
+//parsing.c
+void	parsing(t_main *main, char **argv);
 
-//error_handling.c
-void handle_error(int code);
+//texure_handling.c
+void	load_texure(t_texture *t, t_wall *height, char *t_path);
+char	*save_element(t_main *main, char *buffer);
+void	take_care_of_texure(char *buffer, t_main *main, char name);
+void	load_xpm(t_wall *wall);
+
+//utils.c
+bool	match(char *searched, char *str);
+void	open_the_file(t_main *main, char **argv);
+void	draw_line(t_wall *height, int color);
+
+//	============>  drawing	<============
+
+void	draw_player(t_wall *height);
+
+void	draw_3d(t_wall *wall, int a, double i);
+
+//colors.c
+void	take_care_of_color(char *buffer, t_main *m, char id);
+char	*trim_whitespace(char *str);
+int		ft_isspace(int c);
+
+
+//free.c
+void	freeing_wall(t_wall *wall);
+void	parsing_cleaning(t_main *main, char *arr, int err);
+int		close_game(t_wall *wall);
+void	clear_the_main_struct(t_main *main);
 
 //init.c
-void	data_init(t_data *data);
-void	load_all_textures(t_data *data);
+void	initialize_main(t_main *main);
+void	initialize_wall(t_wall *wall, t_main *main);
+void	initialize_mlx(t_data *img, t_vars *vars);
 
-//map_check.c
-int		is_map_empty(t_data *data);
-int		check_valid_chars(t_data *data);
-int		check_player_count(char **map);
-bool	is_map_closed(t_data *data);
-int		check_boundary_cells(bool visited[][MAX_WIDTH], int height, int width);
+//player.c
+void	player_rotation(t_wall *height, int offset);
+void	check_player_direction(t_main *main);
 
-//map_get_valid.c
-int		ft_isspace(int c);
-int		get_map(char *line, t_data *data);
-int		is_map_valid(t_data *data);
-
-//map_parse_utils.c
-int		is_valid_char(char c);
-int		count_players(char **map);
-void	dfs(int row, int col, t_data *data,
-	bool visited[data->map_height][data->map_width]);
-int		resize_game_map(t_data *data);
-int		allocate_initial_map(t_data *data);
-
-//movement.c
-void	handle_movement(int keycode, t_data *data, float *dx, float *dy);
-void	handle_rotation(int keycode, t_data *data);
-int		key_press(int keycode, t_data *data);
-void	move_player(t_data *data, float dx, float dy);
+//raycasting_utils.c
+void	first_horizontal(t_wall *height, int start_tile_pos_x, int start_tile_pos_y);
+void	first_vertical(t_wall *height, int start_tile_pos_x, int start_tile_pos_y);
+void	decide_quadrant(t_wall *height);
 
 //raycasting.c
-void	set_wall_distance(t_data *data);
-void	cast_through_map(t_data *data);
-void	cast_single_ray(t_data *data, int x);
-void	set_ray_step_and_side_dist(t_data *data);
+void	raycasting(t_wall *height, int start_tile_pos_x, int start_tile_pos_y);
+void	draw_2d_rays(t_wall *height);
 
-//rendering.c
-void	render(t_data *data);
-t_texture *ray_direction(t_data *data);
+//raycasting2.c
+int		check_horizontal_wall(t_wall *height);
+int		check_vertical_wall(t_wall *height);
+void	count_horizontal_scaling(t_wall *height);
+void	count_vertical_scaling(t_wall *height);
+double	calculate_dist_draw(t_wall *height, int hor_hit, int ver_hit);
 
-//textures_parse.c
-int		get_elements( char *line, t_data *data);
-int		parse_texture(char *line, t_data *data);
-int		parse_color(char *line, t_data *data);
+//utils.c
+void	position_offset(t_main *main, t_wall *wall);
+int		check_wall(t_wall *height, int x_future, int y_future);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void	player_center_rotation(t_wall *height, double tmp_x, double c, double s);
+void	load_assets(t_wall *height);
 
-// debugging to delete after
-void print_2d_array(char **map);
+//wall_colision.c
+int		wall_colision_check(t_wall *height, int keycode);
+
+void	play_music(void);
+
+
+//ERROR Codes
+# define SPEED_TO_LITTLE		-5
+# define DEFAULT_CEILING_COLOR	-4
+# define DEFAULT_FLOOR_COLOR	-3
+# define TILE_SIZE		 		-2
+# define SCREEN_SIZE	 		-1
+# define NOT_ENOUGH_ARGS 		1
+# define INVALID_ARGS			2
+# define WRONG_FILE_EXTENSION 	3
+# define FILE_IS_NOT_THERE 		4
+# define INCORECT_FILE_CONFIG	5
+# define CUB_CONTAINS_TRASH		6
+# define MISSING_ELEMENT_PATH	7
+# define FOUND_ELEMENT_TRASH	8
+# define INCORECT_COLOR_VAL		9
+# define TAB_IN_MAP_FOUND		10
+# define MAP_NOT_CLOSED			11
+# define WRONG_INFO_IN_MAP		12
+# define EMPTY_LINE_IN_MAP		13
+# define MORE_THAN_ONE_PLAYER	14
+# define MAP_IS_NOT_CLOSED		15
+# define PLAYER_DOES_NOT_EXIST	16
+# define XPM_HAS_FAILED_TO_OPEN	17
+
+//Screen size
+# define S_WIDTH 1280
+# define S_HEIGHT 720
+
+//Colors
+# define B "\033[0m"
+# define RED "\033[0;31m"
+# define GREEN "\033[0;32m"
+# define YELL	"\033[0;33m"
+
+//Radians
+# define RADIAN 0.0174532925
+
+//Keys
+# ifdef __APPLE__
+#  define LEFT_KEY	124
+#  define RIGHT_KEY	123
+#  define W_KEY		13
+#  define S_KEY		1
+#  define D_KEY		2
+#  define A_KEY		0
+#  define ESC_KEY	53
+# elif __linux__
+#  define LEFT_KEY 	97
+#  define RIGHT_KEY 100
+#  define W_KEY		119
+#  define S_KEY		115
+#  define D_KEY		100
+#  define A_KEY		97
+#  define ESC_KEY	65307
+# endif
+
+//Tile size
+# define TILE	32
+
+//Textures and colors
+# define D_NO "./textures/default_north.xpm"
+# define D_EA "./textures/default_east.xpm"
+# define D_SO "./textures/default_south.xpm"
+# define D_WE "./textures/default_west.xpm"
+# define D_F 0xDC6400
+# define D_C 0xE11E00
+
 #endif

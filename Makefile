@@ -28,7 +28,7 @@ CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g -I includes/ -I libft/inclu
 MLX_FLAGS := minilibx_opengl/libmlx.a -framework OpenGL -framework AppKit 
 # Folders & files
 HEADER = cub3d.h
-FILES = create drawing drawing_utils_2 drawing_utils_texture destroy direction error_handling init map_check map_get_valid map_parse_utils movement raycasting rendering textures_parse main
+FILES = map checking_map parsing parsing_utils errors errors1 errors_utils texure_handling utils init free colors player drawing raycasting raycasting2 raycasting_utils  wall_colision draw3d main
 LIBFT = -L libft -lft
 
 #timing
