@@ -6,7 +6,7 @@
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:42:00 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 17:21:26 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:47:48 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,28 @@ void	draw_player(t_wall *height)
 	height->p_m[7] = (height->p_c[5] + height->p_c[7]) / 2;
 	height->p_m[4] = (height->p_c[0] + height->p_c[4]) / 2;
 	height->p_m[5] = (height->p_c[1] + height->p_c[5]) / 2;
+}
+
+void	player_center_rotation(t_wall *height, double tmp_x, double c, double s)
+{
+	tmp_x = height->p_c[0];
+	height->p_c[0] = ((height->p_c[0] - height->pos_cur_x) * c - \
+		(height->p_c[1] - height->pos_cur_y) * s) + height->pos_cur_x;
+	height->p_c[1] = ((tmp_x - height->pos_cur_x) * s + \
+		(height->p_c[1] - height->pos_cur_y) * c) + height->pos_cur_y;
+	tmp_x = height->p_c[2];
+	height->p_c[2] = ((height->p_c[2] - height->pos_cur_x) * c - \
+		(height->p_c[3] - height->pos_cur_y) * s) + height->pos_cur_x;
+	height->p_c[3] = ((tmp_x - height->pos_cur_x) * s + \
+		(height->p_c[3] - height->pos_cur_y) * c) + height->pos_cur_y;
+	tmp_x = height->p_c[4];
+	height->p_c[4] = ((height->p_c[4] - height->pos_cur_x) * c - \
+		(height->p_c[5] - height->pos_cur_y) * s) + height->pos_cur_x;
+	height->p_c[5] = ((tmp_x - height->pos_cur_x) * s + \
+		(height->p_c[5] - height->pos_cur_y) * c) + height->pos_cur_y;
+	tmp_x = height->p_c[6];
+	height->p_c[6] = ((height->p_c[6] - height->pos_cur_x) * c - \
+		(height->p_c[7] - height->pos_cur_y) * s) + height->pos_cur_x;
+	height->p_c[7] = ((tmp_x - height->pos_cur_x) * s + \
+		(height->p_c[7] - height->pos_cur_y) * c) + height->pos_cur_y;
 }
