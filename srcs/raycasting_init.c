@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting_utils.c                                 :+:      :+:    :+:   */
+/*   raycasting_init.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:42:11 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 12:32:08 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:22:01 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	first_horizontal(t_wall *height, int start_tile_pos_x, int start_tile_pos_y)
+void	first_horizontal(t_wall *height, \
+	int start_tile_pos_x, int start_tile_pos_y)
 {
 	double	a;
 	int		offsetx;
@@ -37,7 +38,8 @@ void	first_horizontal(t_wall *height, int start_tile_pos_x, int start_tile_pos_y
 		height->current_hor_x = start_tile_pos_x + offsetx - a;
 }
 
-void	first_vertical(t_wall *height, int start_tile_pos_x, int start_tile_pos_y)
+void	first_vertical(t_wall *height, \
+	int start_tile_pos_x, int start_tile_pos_y)
 {
 	double	a;
 	double	b;

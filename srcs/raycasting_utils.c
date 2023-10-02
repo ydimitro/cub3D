@@ -1,16 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting2.c                                      :+:      :+:    :+:   */
+/*   raycasting_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:42:32 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 12:32:08 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:23:26 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 /* Here is the short concise pseudocode for the above:
 1. Determine angle of the ray
@@ -22,8 +20,6 @@
 7.  Determine which wall the ray has hit
 8.  Draw the ray 
 */
-
-
 
 #include "cub3d.h"
 
@@ -71,7 +67,8 @@ int	check_vertical_wall(t_wall *height)
 
 void	count_horizontal_scaling(t_wall *height)
 {
-	height->horizontal_x_scaling = fabs(TILE / tan(height->real_angle * RADIAN));
+	height->horizontal_x_scaling = \
+		fabs(TILE / tan(height->real_angle * RADIAN));
 	if (fabs(remainder(height->angle + height->p_offset, 180)) == 90)
 		height->horizontal_x_scaling = 10000000;
 }
@@ -88,10 +85,12 @@ double	calculate_dist_draw(t_wall *height, int hor_hit, int ver_hit)
 	double	magnitude_horizontal_v;
 	double	magnitude_vertical_v;
 
-	magnitude_horizontal_v = sqrt(fabs(pow(height->current_hor_x - height->pos_cur_x, 2)) + \
-									fabs(pow(height->current_hor_y - height->pos_cur_y, 2)));
-	magnitude_vertical_v = sqrt(fabs(pow(height->current_ver_x - height->pos_cur_x, 2)) + \
-									fabs(pow(height->current_ver_y - height->pos_cur_y, 2)));
+	magnitude_horizontal_v = sqrt(fabs(pow(height->current_hor_x - \
+		height->pos_cur_x, 2)) + \
+		fabs(pow(height->current_hor_y - height->pos_cur_y, 2)));
+	magnitude_vertical_v = sqrt(fabs(pow(height->current_ver_x - \
+		height->pos_cur_x, 2)) + \
+		fabs(pow(height->current_ver_y - height->pos_cur_y, 2)));
 	height->x_ray = false;
 	if (fabs(remainder(height->angle + height->p_offset, 180)) == 90)
 		magnitude_horizontal_v = magnitude_vertical_v + 10;

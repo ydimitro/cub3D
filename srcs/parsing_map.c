@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checking_map.c                                     :+:      :+:    :+:   */
+/*   parsing_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:38:23 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 11:39:31 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:43:02 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/**
- * FUNCTION: (check_right) checks the area on the right of the space.
- * 				111 <--- possible to be 0 or 1
- * 				1 1 <--- can only be 1
- * 				111 <--- possible to be 0 or 1
+/*
+Checking the area on the right of the space.
+	111 <--- possible to be 0 or 1
+	1 1 <--- can only be 1
+	111 <--- possible to be 0 or 1
  */
 int	check_right(t_main *main, int x, int y, int x_r)
 {
@@ -47,16 +47,16 @@ int	check_right(t_main *main, int x, int y, int x_r)
 	return (0);
 }
 
-/**
- * FUNCTION: (check_middle) checks the middle of around the space if
- * 				the grid does not contain 0 or player directions.
- * 			can be only one
- * 				|
- * 			   111
- * 			   1 1
- * 			   111
- * 				|
- * 			can be only one	
+/*
+Checking the middle of around the space if
+	the grid does not contain 0 or player directions.
+	can be only one
+		|
+ 	   111
+	   1 1
+	   111
+		|
+	can be only one	
  */
 int	check_middle(t_main *main, int x, int y)
 {
@@ -76,12 +76,11 @@ int	check_middle(t_main *main, int x, int y)
 	return (0);
 }
 
-/**
- * FUNCTION: (check_left) checks if the spaces to the left of the space
- * 				are valid.
- * 		can be 0 1 or space -->111
- * 		can be 1 or space	-->1 1
- * 		can be 0 1 or space	-->111
+/*
+Checking if the spaces to the left of the spaces are valid.
+	can be 0 1 or space -->111
+	can be 1 or space	-->1 1
+	can be 0 1 or space	-->111
  */
 int	check_left(t_main *main, int x, int y, int x_l)
 {
@@ -112,9 +111,9 @@ int	check_left(t_main *main, int x, int y, int x_l)
 	return (0);
 }
 
-/**
- * FUNCTION: (check_spaces) takes care of checking around of each cell 
- * 			that is empty if nearby cells are empty too.
+/*
+Taking care of checking around of each cell 
+that is empty if nearby cells are empty too.
  */
 void	check_spaces(t_main *main, int x, int y)
 {

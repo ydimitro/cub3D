@@ -6,16 +6,15 @@
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:41:05 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 12:27:16 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 16:16:57 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/**
- * FILE (init.c) FUNCTION (initialize_main):
- * initializes all of the information in t_main struct to default state. 
- */
+/*
+Initializing the members of the t_main struct to default state. 
+*/
 void	initialize_main(t_main *main)
 {
 	main->file_fd = -1;
@@ -34,6 +33,10 @@ void	initialize_main(t_main *main)
 	main->map = NULL;
 }
 
+/*
+Allocates memory for various structures related to the wall 
+and initializing some of its members.
+*/
 void	calloc_struct(t_wall *wall)
 {
 	wall->data = ft_calloc(sizeof(t_data), 1);
@@ -50,6 +53,10 @@ void	calloc_struct(t_wall *wall)
 	wall->b->direction = 0;
 }
 
+/*
+Initializing the members of the t_wall structure and calling the 
+calloc_struct function to allocate memory for its substructures.
+*/
 void	initialize_wall(t_wall *wall, t_main *main)
 {
 	int	i;
@@ -76,6 +83,9 @@ void	initialize_wall(t_wall *wall, t_main *main)
 	wall->main = main;
 }
 
+/*
+Initializing the MiniLibX (a graphics library) variables and structures.
+*/
 void	initialize_mlx(t_data *img, t_vars *vars)
 {
 	vars->mlx = mlx_init();

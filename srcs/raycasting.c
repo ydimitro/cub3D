@@ -6,10 +6,9 @@
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:42:21 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 12:32:08 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:23:48 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 /**
 1. Calculate the angle of the ray.
@@ -77,7 +76,8 @@ void	raycasting(t_wall *height, int start_tile_pos_x, int start_tile_pos_y)
 		ver_hit = check_vertical_wall(height);
 	}
 	if (ver_hit != 0 && hor_hit != 0)
-		height->shortest_dist_to_wall = calculate_dist_draw(height, hor_hit, ver_hit);
+		height->shortest_dist_to_wall = \
+			calculate_dist_draw(height, hor_hit, ver_hit);
 }
 
 void	draw_2d_rays(t_wall *height)

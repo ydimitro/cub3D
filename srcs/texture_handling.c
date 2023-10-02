@@ -1,16 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   texure_handling.c                                  :+:      :+:    :+:   */
+/*   texture_handling.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:43:23 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 13:39:45 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:25:07 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "cub3d.h"
 
@@ -18,12 +16,13 @@ void	load_texure(t_texture *t, t_wall *height, char *t_path)
 {
 	t->height = 0;
 	t->width = 0;
-	printf("%s\n", t_path + 2);
-	t->img = mlx_xpm_file_to_image(height->vars->mlx, t_path + 2, &t->width, &t->height);
+	t->img = mlx_xpm_file_to_image(height->vars->mlx, \
+		t_path + 2, &t->width, &t->height);
 	if (t->img == NULL)
 		ft_exiterr(XPM_HAS_FAILED_TO_OPEN);
 	t->data = mlx_get_data_addr(t->img, &t->bpp, &t->size_line, &t->endian);
-	mlx_put_image_to_window(height->vars->mlx, height->vars->win, t->img, t->width, t->height);
+	mlx_put_image_to_window(height->vars->mlx, \
+		height->vars->win, t->img, t->width, t->height);
 }
 
 char	*prepare_element_path(char *str)
