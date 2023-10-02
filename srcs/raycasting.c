@@ -1,108 +1,98 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   raycasting.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ydimitro <ydimitro@students.42wolfsburg.de +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/10 08:10:47 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/09/17 08:10:47 by ydimitro         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
-#include "cub3d.h"
+/**
+1. Calculate the angle of the ray.
+2. Calculate the quadrant of the ray.
+3. Calculate the real angle of the ray.
+4. Count the vertical and horizontal scaling.
+5. Do the first vertical and horizontal calculations.
+6. Check if the first vertical and horizontal hit the wall.
+7. If not, count the next vertical and horizontal calculations.
+8. If yes, calculate the distance to the wall.
+9. Draw the ray on the screen.
+10. Repeat steps 5-9 until the last ray is drawn.
+11. Go back to step 1 and repeat until all the rays are drawn
+ */
 
-void	set_wall_distance(t_data *data)
+#include "../includes/cub3d.h"
+
+void	rest_horizontal(t_wall *h, int start_tile_pos_y, int step)
 {
-	double	offset;
-	double	step;
-	double	dir;
-	double	map_pos;
-
-	if (data->ray.side == 0)
-	{
-		offset = data->player.x;
-		step = data->ray.step_x;
-		dir = data->ray.dir_x;
-		map_pos = data->ray.map_x;
-	}
+	h->current_hor_len = TILE / sin(h->real_angle * RADIAN);
+	if (h->quadrant == 4 || h->quadrant == 3)
+		h->current_hor_y = start_tile_pos_y + (TILE) + ((TILE) * step);
 	else
-	{
-		offset = data->player.y;
-		step = data->ray.step_y;
-		dir = data->ray.dir_y;
-		map_pos = data->ray.map_y;
-	}
-	data->ray.perp_wall_dist = (map_pos - offset + (1 - step) / 2) / dir;
-}
-
-void	cast_through_map(t_data *data)
-{
-	if (data->ray.hit == 0)
-	{
-		if (data->ray.side_dist_x < data->ray.side_dist_y)
-		{
-			data->ray.side_dist_x += data->ray.delta_dist_x;
-			data->ray.map_x += data->ray.step_x;
-			data->ray.side = 0;
-		}
-		else
-		{
-			data->ray.side_dist_y += data->ray.delta_dist_y;
-			data->ray.map_y += data->ray.step_y;
-			data->ray.side = 1;
-		}
-		if (data->map[data->ray.map_x][data->ray.map_y] == '1')
-			data->ray.hit = 1;
-		if (data->ray.hit == 0)
-			cast_through_map(data);
-	}
-}
-
-void	set_ray_step_and_side_dist(t_data *data)
-{
-	if (data->ray.dir_x < 0)
-	{
-		data->ray.step_x = -1;
-		data->ray.side_dist_x = (data->player.x - data->ray.map_x)
-			* data->ray.delta_dist_x;
-	}
+		h->current_hor_y = start_tile_pos_y - ((TILE) * step);
+	if (h->quadrant == 3 || h->quadrant == 2)
+		h->current_hor_x -= h->horizontal_x_scaling;
 	else
-	{
-		data->ray.step_x = 1;
-		data->ray.side_dist_x = (data->ray.map_x + 1.0 - data->player.x)
-			* data->ray.delta_dist_x;
-	}
-	if (data->ray.dir_y < 0)
-	{
-		data->ray.step_y = -1;
-		data->ray.side_dist_y = (data->player.y - data->ray.map_y)
-			* data->ray.delta_dist_y;
-	}
+		h->current_hor_x += h->horizontal_x_scaling;
+}
+
+void	rest_vertical(t_wall *h, int start_tile_pos_x, int step)
+{
+	h->current_ver_len = TILE / cos(h->real_angle * RADIAN);
+	h->current_ver_x = start_tile_pos_x + (TILE) * step + (TILE);
+	if (h->quadrant == 3 || h->quadrant == 4)
+		h->current_ver_y += h->vertical_y_scaling;
 	else
+		h->current_ver_y -= h->vertical_y_scaling;
+	if (h->quadrant == 3 || h->quadrant == 2)
+		h->current_ver_x = start_tile_pos_x - (TILE) * step;
+}
+
+void	raycasting(t_wall *h, int start_tile_pos_x, int start_tile_pos_y)
+{
+	int		step;
+	int		hor_hit;
+	int		ver_hit;
+
+	step = 1;
+	ver_hit = 0;
+	hor_hit = 0;
+	first_horizontal(h, start_tile_pos_x, start_tile_pos_y);
+	first_vertical(h, start_tile_pos_x, start_tile_pos_y);
+	hor_hit = check_horizontal_wall(h);
+	ver_hit = check_vertical_wall(h);
+	while (hor_hit == 0)
 	{
-		data->ray.step_y = 1;
-		data->ray.side_dist_y = (data->ray.map_y + 1.0 - data->player.y)
-			* data->ray.delta_dist_y;
+		rest_horizontal(h, start_tile_pos_y, step++);
+		hor_hit = check_horizontal_wall(h);
 	}
+	step = 1;
+	while (ver_hit == 0)
+	{
+		rest_vertical(h, start_tile_pos_x, step++);
+		ver_hit = check_vertical_wall(h);
+	}
+	if (ver_hit != 0 && hor_hit != 0)
+		h->shortest_dist_to_wall = calculate_dist_draw(h, hor_hit, ver_hit);
 }
 
-void	initialize_ray(t_data *data, int x)
+void	draw_2d_rays(t_wall *h)
 {
-	double	cam_x;
+	int		a;
+	double	fov;
+	int		start_tile_pos_x;
+	int		start_tile_pos_y;
 
-	cam_x = 2 * x / (double)data->screen_width - 1;
-	data->ray.dir_x = data->player.dir + cam_x;
-	data->ray.dir_y = 1.0 + cam_x;
-	data->ray.map_x = (int)data->player.x;
-	data->ray.map_y = (int)data->player.y;
-	data->ray.delta_dist_x = fabs(1 / data->ray.dir_x);
-	data->ray.delta_dist_y = fabs(1 / data->ray.dir_y);
-	data->ray.hit = 0;
-	set_ray_step_and_side_dist(data);
-}
-void	cast_single_ray(t_data *data, int x)
-{
-	initialize_ray(data, x);
-	cast_through_map(data);
+	a = 0;
+	fov = -30;
+	h->angle -= 30;
+	h->current_tile_pos_x = (h->p_c_x - TILE) / TILE;
+	h->current_tile_pos_y = (h->p_c_y - TILE) / TILE;
+	start_tile_pos_x = (TILE + (h->current_tile_pos_x * TILE));
+	start_tile_pos_y = (TILE + (h->current_tile_pos_y * TILE));
+	while (a < S_WIDTH)
+	{
+		decide_quadrant(h);
+		h->real_angle = fabs((double)90 - remainder(h->angle + \
+									(double)h->p_offset, (double)180));
+		count_vertical_scaling(h);
+		count_horizontal_scaling(h);
+		raycasting(h, start_tile_pos_x, start_tile_pos_y);
+		draw_3d(h, a++, fov);
+		h->angle += h->one_colum_increase;
+		fov += h->one_colum_increase;
+	}
+	h->angle -= 30;
 }
