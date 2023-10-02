@@ -6,7 +6,7 @@
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:40:32 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 12:27:01 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:14:52 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	first_error_messages(int err)
 	else if (err == INVALID_ARGS)
 		ft_putstr_fd(RED "Invalid arguments!\n" B, 2);
 	else if (err == WRONG_FILE_EXTENSION)
-		ft_putstr_fd(RED "Invalid file Ext! Only files with [.cub] Ext!\n" B, 2);
+		ft_putstr_fd(RED "Invalid file Ext! \
+			Only files with [.cub] Ext!\n" B, 2);
 	else if (err == FILE_IS_NOT_THERE)
 		ft_putstr_fd(RED "File does not exist!\n" B, 2);
 	else if (err == INCORECT_FILE_CONFIG)
@@ -41,10 +42,9 @@ int	first_error_messages(int err)
 	return (0);
 }
 
-/**
- * FUNCTION: (ft_exiterr) is responsible for matching the err number with
- * 				its error and outputting the error message into the terminal
- * 				using ft_putstr_fd.
+/*
+Matching the err number with its error and outputting the error message 
+into the terminal using ft_putstr_fd.
  */
 void	ft_exiterr(int err)
 {
@@ -75,10 +75,10 @@ void	ft_exiterr(int err)
 	exit (err);
 }
 
-/**
- * FUNCTION: (check_for_tabs) checks for the tab in the given line.
- * 				if it finds one it outputs and error because subject
- * 				pdf specifies that only spaces should be valid.
+/*
+Checking for the tab in the given line.
+if it finds one it outputs and error because subject
+pdf specifies that only spaces should be valid.
  */
 static void	check_for_tabs(t_main *main, char *buffer)
 {
@@ -91,11 +91,10 @@ static void	check_for_tabs(t_main *main, char *buffer)
 		parsing_cleaning(main, buffer, TAB_IN_MAP_FOUND);
 }
 
-/**
- * FUNCTION: (check_file_config) it just checks that the map
- * 				would be after the information about the map like
- * 				ceiling floor color and the texures for each wall.
- * 				Also, checks for the tab using (check_for_tabs) function.
+/*
+Checking that the map would be after the information about 
+the map like ceiling floor color and the texures for each wall.
+Also, checks for the tab using (check_for_tabs) function.
  */
 static void	check_file_config(t_main *main)
 {
@@ -121,15 +120,15 @@ static void	check_file_config(t_main *main)
 	}
 }
 
-/**
- * FUNCTION: (check_basic_erros) performs checks before the map is parsed.
- *		1. @argument_ammount: it checks if the argument ammount is correct.
-		2. @check_file_extension: it checks that the file extension would be .cub
- * 		3. @open_the_file: it OPENS the given file and checks the file descriptor if
- * 				its a valid one it saves it in the struct.
- * 		4. @check_file_config: Checks for any tabs. It checks that the information
- * 			about the map would be before the map itself. it checks that there would
- * 			not be anything that is not supposed to be there according to pdf.
+/*
+Performs checks before the map is parsed.
+1. @argument_ammount: it checks if the argument ammount is correct.
+2. @check_file_extension: it checks that the file extension would be .cub
+3. @open_the_file: it OPENS the given file and checks the file descriptor if
+	its a valid one it saves it in the struct.
+4. @check_file_config: Checks for any tabs. It checks that the information
+	about the map would be before the map itself. it checks that there would
+	not be anything that is not supposed to be there according to pdf.
  */
 void	check_basic_errors(t_main *main, int argc, char **argv)
 {

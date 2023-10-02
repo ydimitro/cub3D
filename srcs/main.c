@@ -6,7 +6,7 @@
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:41:16 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 11:41:18 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:16:08 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,18 @@ int	key_hook(int keycode, t_wall *wall)
 int	render(t_wall *height)
 {
 	height->data->img = mlx_new_image(height->vars->mlx, S_WIDTH, S_HEIGHT);
-	height->data->addr = mlx_get_data_addr(height->data->img, &height->data->bits_per_pixel, \
-	&height->data->line_length, &height->data->endian);
+	height->data->addr = mlx_get_data_addr(height->data->img, \
+		&height->data->bits_per_pixel, \
+		&height->data->line_length, &height->data->endian);
 	draw_player(height);
 	draw_2d_rays(height);
-	mlx_put_image_to_window(height->vars->mlx, height->vars->win, height->data->img, 0, 0);
+	mlx_put_image_to_window(height->vars->mlx, height->vars->win, \
+		height->data->img, 0, 0);
 	mlx_destroy_image(height->vars->mlx, height->data->img);
 	return (0);
 }
 
-void hooks_n_loops(t_wall *wall)
+void	hooks_n_loops(t_wall *wall)
 {
 	wall->pos_cur_x = TILE + (wall->main->p_x * (TILE)) + ((TILE) / 2);
 	wall->pos_cur_y = TILE + (wall->main->p_y * (TILE)) + ((TILE) / 2);

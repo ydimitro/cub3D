@@ -6,7 +6,7 @@
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:40:09 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 12:40:24 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 16:57:17 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ Retrieving the color of a pixel from a texture.
 2. Retrieving color with x-ray
 3. Retrieving modified color without x-ray
 "*(int *)color >> 1": halves the brightness of the color.
-"& 8355711": ensures that the color value does not exceed the maximum allowable value 
-             for each RGB channel. It also adds a slight tint to the color.
+"& 8355711": ensures that the color value does not exceed the maximum 
+allowable value for each RGB channel. It also adds a slight tint to the color.
 */
 int	my_mlx_pixel_get(t_wall *height, t_texture *texture, int x, int y)
 {
@@ -89,7 +89,8 @@ void	draw_vertical_line(t_wall *height, double temp_line_h)
 	while (y1 != height->line[3])
 	{
 		my_mlx_pixel_put(height->data, height->line[0], y1, \
-		my_mlx_pixel_get(height, texture, column, row * height->tex_to_line_h_ratio_y));
+		my_mlx_pixel_get(height, texture, column, row * \
+			height->tex_to_line_h_ratio_y));
 		row++;
 		y1++;
 	}

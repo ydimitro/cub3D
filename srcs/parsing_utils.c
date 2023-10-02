@@ -6,7 +6,7 @@
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:41:39 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 15:18:53 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:43:51 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ void	open_the_file(t_main *main, char **argv)
 	main->file_fd = fd;
 }
 
-/**
- * FUNCTION: (check_file_extension) checks that the file
- * 				extension would be .cub
+/*
+Checking that the file extension is .cub
  */
 void	check_file_extension(char *filename)
 {

@@ -6,30 +6,16 @@
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:42:00 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 11:42:01 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:21:26 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-/**
- * @brief 
- * 1. The player is a square. The player is centered around the center coordinate (x, y) which is the middle of the square.
-2. The player has a width and height which is the width and height of the square.
-3. The player has a direction which is the angle (in degrees) that the player is facing.
-4. The player has a moveSpeed and a rotSpeed which will be used to calculate how far the player moves each frame and how much the player rotates each frame.
-5. The player is drawn on every frame.
-6. To draw the player we first need to calculate the four corners of the player rectangle.
-7. The corners of the player rectangle are calculated by first calculating the two vectors that make up the player direction (dirX and dirY). We then rotate these vectors by the player direction and then scale them by the player width and height. The vectors are then added to the player position to get the four corners of the player rectangle.
-8. The player is rotated by adding the rotSpeed to the player direction.
-9. The player is moved by first calculating the new player position based on the player direction and moveSpeed and then checking if the new player position is a valid position. If the new player position is valid then the player position is updated with the new player position.
- */
-
-/**
- * FUNCTION: (check_player_direction) checks that there would be a player.
- * 				That there would not be more than one player. And then it saves
- * 				the position of the player and its direction in the main struct.
+/*
+Checking that there would be a player.
+That there would not be more than one player. 
+And then it saves the position  and  direction in the main struct.
  */
 void	check_player_direction(t_main *main)
 {
@@ -79,7 +65,8 @@ void	player_rotation(t_wall *height, int offset)
 	double	tmp_x;
 
 	tmp_x = 0;
-	if (fmod(height->angle + offset, 90) == 0 || fmod(height->angle + offset, 180) == 0)
+	if (fmod(height->angle + offset, 90) == 0 || fmod(height->angle + \
+		offset, 180) == 0)
 	{
 		s = (int)sin((height->angle + offset) * RADIAN);
 		c = (int)cos((height->angle + offset) * RADIAN);

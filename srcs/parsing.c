@@ -6,17 +6,16 @@
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 11:41:49 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 12:27:01 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:19:24 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/**
- * FUNCTION: (check_for_elements) just matches the the Texure name with the
- * 				one in the buffer if it finds it then it uses the function
- * 				(take_care_of_texure) to save it up the in the main struct as
- * 				a texure.
+/*
+Matching the texure name with the one in the buffer 
+if it finds it then it uses the function (take_care_of_texure) 
+to save it up the in the main struct as a texure.
  */
 void	check_for_elements(char *buffer, t_main *main)
 {
@@ -34,11 +33,10 @@ void	check_for_elements(char *buffer, t_main *main)
 		take_care_of_color(buffer, main, 'C');
 }
 
-
-/**
- * FUNCTION: (find_elements) uses a while loop to scan through the file
- * 				and checks for the possible map elements using:
- * 				(check_for_elements) function.
+/*
+Using a while loop to scan through the file and 
+checks for the possible map elements using:
+(check_for_elements) function.
  */
 void	find_elements(t_main *main)
 {
@@ -46,8 +44,7 @@ void	find_elements(t_main *main)
 
 	buffer = get_next_line(main->file_fd);
 	while (buffer != NULL)
-	{	
-
+	{
 		check_for_elements(buffer, main);
 		free(buffer);
 		buffer = get_next_line(main->file_fd);
@@ -57,11 +54,11 @@ void	find_elements(t_main *main)
 	close(main->file_fd);
 }
 
-/**
- * FUNCTION: (find_map) skips everything in the file till it finds the map
- * 				then it goes through it and checks for empty lines or
- * 				information that should not be contained inside of the map.
- * 				Then it uses (save_map) function to save the map.
+/*
+Skipping everything in the file till it finds the map
+then it goes through it and checks for empty lines or
+information that should not be contained inside of the map.
+Then it uses (save_map) function to save the map.
  */
 static void	find_map(t_main *main, char **argv)
 {
@@ -88,13 +85,12 @@ static void	find_map(t_main *main, char **argv)
 	save_map(main, argv, len);
 }
 
-/**
- * FUNCTION: (check_for_open_walls) checks for open walls
- * 				1. Checks the top and bottom of the map
- * 					would be closed.
- * 				2. @check_spaces: it goes through the map and check
- * 					checks if the space is surounded by the walls.
- * 					If not it prints the error.
+/*
+checks for open walls
+1. Checks the top and bottom of the map would be closed.
+2. @check_spaces: it goes through the map and check
+checks if the space is surounded by the walls.
+If not it prints the error.
  */
 static void	check_for_open_walls(t_main *main)
 {
@@ -119,13 +115,13 @@ static void	check_for_open_walls(t_main *main)
 	check_spaces(main, 0, 0);
 }
 
-/**
- * FUNCTION: (parsing) hauses the functions that are used to do the parsing.
- * 				1. @find_elements: it goes through the file and checks for the
- * 					elements like: texures of the walls and the ceiling and floor colors.
- * 				2. @find_map: it uses it to locate the map in the file and save it.
- * 				3. @check_player_direction: it checks for the players location.
- * 				4. @check_for_open_walls: it checks for the open walls.
+/*
+Hausing the functions that are used to do the parsing.
+	1. @find_elements: it goes through the file and checks for the
+		elements like: texures of the walls and the ceiling and floor colors.
+	2. @find_map: it uses it to locate the map in the file and save it.
+	3. @check_player_direction: it checks for the players location.
+	4. @check_for_open_walls: it checks for the open walls.
  */
 void	parsing(t_main *main, char **argv)
 {
