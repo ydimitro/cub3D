@@ -6,7 +6,7 @@
 /*   By: ydimitro <ydimitro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:00:43 by ydimitro          #+#    #+#             */
-/*   Updated: 2023/10/02 18:11:37 by ydimitro         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:48:06 by ydimitro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@
 # define RADIAN 0.0174532925
 
 //Keys
-# ifdef __APPLE__
 #  define LEFT_KEY	124
 #  define RIGHT_KEY	123
 #  define W_KEY		13
@@ -72,24 +71,15 @@
 #  define D_KEY		2
 #  define A_KEY		0
 #  define ESC_KEY	53
-# elif __linux__
-#  define LEFT_KEY 	97
-#  define RIGHT_KEY 100
-#  define W_KEY		119
-#  define S_KEY		115
-#  define D_KEY		100
-#  define A_KEY		97
-#  define ESC_KEY	65307
-# endif
 
 //Tile size
 # define TILE	32
 
 //Textures and colors
- # define D_NO "./textures/default_north.xpm"
- # define D_EA "./textures/default_east.xpm"
- # define D_SO "./textures/default_south.xpm"
- # define D_WE "./textures/default_west.xpm"
+ # define D_NO "./textures/north.xpm"
+ # define D_EA "./textures/east.xpm"
+ # define D_SO "./textures/south.xpm"
+ # define D_WE "./textures/west.xpm"
 # define D_F 0xDC6400
 # define D_C 0xE11E00
 
@@ -284,6 +274,7 @@ void	check_player_direction(t_main *main);
 void	initialize_rectangle(t_wall *height);
 void	player_rotation(t_wall *height, int offset);
 void	draw_player(t_wall *height);
+void	player_center_rotation(t_wall *height, double tmp_x, double c, double s);
 
 //raycasing_init.c
 void	first_horizontal(t_wall *height, \
@@ -318,7 +309,6 @@ void	take_care_of_texure(char *buffer, t_main *main, char name);
 void	position_offset(t_main *main, t_wall *wall);
 int		check_wall(t_wall *height, int x_future, int y_future);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-void	player_center_rotation(t_wall *height, double tmp_x, double c, double s);
 void	load_assets(t_wall *height);
 int		ft_isspace(int c);
 char	*trim_whitespace(char *str);
